@@ -233,38 +233,35 @@ import Layout from '../layouts/Layout.astro';
 					console.log('Layer added: subsetRivers-layer');
 				}
 
-				// Add river labels - simplest possible config
+				// Add river labels
 				if (!map.getLayer('subsetRivers-labels')) {
+					// Get available fonts from the style
+					const style = map.getStyle();
+					console.log('Style glyphs:', style.glyphs);
+					
 					map.addLayer({
 						id: 'subsetRivers-labels',
 						type: 'symbol',
 						source: 'subsetRivers',
 						'source-layer': 'subsetRivers-d1irb0',
 						layout: {
-							'symbol-placement': 'line',
-							'text-field': ['to-string', ['get', 'name']],
-							'text-size': 14,
-							'text-allow-overlap': true
+							'symbol-placement': 'line-center',
+							'text-field': ['get', 'name'],
+							'text-font': ['literal', ['Arial Unicode MS Regular']],
+							'text-size': 13,
+							'text-letter-spacing': 0.05,
+							'text-max-angle': 30,
+							'symbol-spacing': 300,
+							'text-allow-overlap': false,
+							'text-ignore-placement': false
 						},
 						paint: {
-							'text-color': '#ff0000'
+							'text-color': '#c4e3f5',
+							'text-halo-color': 'rgba(0, 30, 60, 0.95)',
+							'text-halo-width': 1.5
 						}
 					});
 					console.log('Layer added: subsetRivers-labels');
-					
-					// Debug: count features with names
-					map.on('sourcedata', (e) => {
-						if (e.sourceId === 'subsetRivers' && e.isSourceLoaded) {
-							const features = map.querySourceFeatures('subsetRivers', {
-								sourceLayer: 'subsetRivers-d1irb0'
-							});
-							const withNames = features.filter(f => f.properties && f.properties.name);
-							console.log(`Total features: ${features.length}, With names: ${withNames.length}`);
-							if (withNames.length > 0) {
-								console.log('Sample feature with name:', withNames[0].properties);
-							}
-						}
-					});
 				}
 			} catch (err) {
 				console.error('Error adding rivers layer:', err);
