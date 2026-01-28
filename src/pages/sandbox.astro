@@ -274,6 +274,20 @@ import Layout from '../layouts/Layout.astro';
 			console.error('Map error:', e.error);
 		});
 
+		// Debug: Click on rivers to see properties
+		map.on('click', 'subsetRivers-layer', (e) => {
+			if (e.features && e.features[0]) {
+				console.log('River properties:', e.features[0].properties);
+				alert('Properties: ' + JSON.stringify(e.features[0].properties, null, 2));
+			}
+		});
+		map.on('mouseenter', 'subsetRivers-layer', () => {
+			map.getCanvas().style.cursor = 'pointer';
+		});
+		map.on('mouseleave', 'subsetRivers-layer', () => {
+			map.getCanvas().style.cursor = '';
+		});
+
 		// Style buttons
 		document.querySelectorAll('.style-btn').forEach(btn => {
 			btn.addEventListener('click', () => {
