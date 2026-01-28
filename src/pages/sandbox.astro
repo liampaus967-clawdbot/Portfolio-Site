@@ -1,0 +1,223 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Sandbox">
+	<section class="sandbox-header">
+		<h1>Map Sandbox</h1>
+		<p>Experimental maps and visualization demos. Play around!</p>
+	</section>
+
+	<section class="map-container">
+		<div id="map"></div>
+		<div class="map-controls">
+			<h3>Map Style</h3>
+			<div class="style-buttons">
+				<button class="style-btn active" data-style="mapbox://styles/mapbox/dark-v11">Dark</button>
+				<button class="style-btn" data-style="mapbox://styles/mapbox/satellite-streets-v12">Satellite</button>
+				<button class="style-btn" data-style="mapbox://styles/mapbox/outdoors-v12">Outdoors</button>
+				<button class="style-btn" data-style="mapbox://styles/mapbox/light-v11">Light</button>
+			</div>
+			<h3>Quick Locations</h3>
+			<div class="location-buttons">
+				<button class="loc-btn" data-lng="-72.5754" data-lat="44.2601" data-zoom="8">Vermont</button>
+				<button class="loc-btn" data-lng="-73.2121" data-lat="44.4759" data-zoom="12">Lake Champlain</button>
+				<button class="loc-btn" data-lng="-72.0151" data-lat="44.1636" data-zoom="11">White Mountains</button>
+				<button class="loc-btn" data-lng="-122.4194" data-lat="37.7749" data-zoom="10">San Francisco</button>
+			</div>
+		</div>
+	</section>
+
+	<section class="sandbox-notes">
+		<h2>About This Sandbox</h2>
+		<p>
+			This is where I test new Mapbox GL JS features, experiment with custom layers, 
+			and prototype visualizations before bringing them to production apps.
+		</p>
+		<p>
+			<strong>Note:</strong> You'll need a Mapbox access token to see the map. 
+			Add yours to the code or check back when I've added a demo token.
+		</p>
+	</section>
+</Layout>
+
+<style>
+	.sandbox-header {
+		padding: 2rem 0;
+	}
+
+	.sandbox-header h1 {
+		font-size: 3rem;
+		font-weight: 700;
+		margin-bottom: 0.5rem;
+	}
+
+	.sandbox-header p {
+		color: var(--text-muted);
+		font-size: 1.1rem;
+	}
+
+	.map-container {
+		display: grid;
+		grid-template-columns: 1fr 280px;
+		gap: 1.5rem;
+		margin-bottom: 3rem;
+	}
+
+	#map {
+		height: 500px;
+		border-radius: 12px;
+		border: 1px solid var(--border);
+		background: var(--bg-secondary);
+	}
+
+	.map-controls {
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		padding: 1.5rem;
+	}
+
+	.map-controls h3 {
+		font-size: 0.9rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--text-muted);
+		margin-bottom: 0.75rem;
+	}
+
+	.map-controls h3:not(:first-child) {
+		margin-top: 1.5rem;
+	}
+
+	.style-buttons,
+	.location-buttons {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.style-btn,
+	.loc-btn {
+		background: var(--bg);
+		border: 1px solid var(--border);
+		color: var(--text);
+		padding: 0.5rem 1rem;
+		border-radius: 8px;
+		cursor: pointer;
+		font-size: 0.85rem;
+		text-align: left;
+		transition: all 0.2s ease;
+	}
+
+	.style-btn:hover,
+	.loc-btn:hover {
+		border-color: var(--accent);
+		background: var(--border);
+	}
+
+	.style-btn.active {
+		background: var(--accent);
+		border-color: var(--accent);
+	}
+
+	.sandbox-notes {
+		padding: 2rem 0;
+		border-top: 1px solid var(--border);
+	}
+
+	.sandbox-notes h2 {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.sandbox-notes p {
+		color: var(--text-muted);
+		line-height: 1.7;
+		margin-bottom: 1rem;
+	}
+
+	@media (max-width: 768px) {
+		.sandbox-header h1 {
+			font-size: 2rem;
+		}
+
+		.map-container {
+			grid-template-columns: 1fr;
+		}
+
+		#map {
+			height: 400px;
+		}
+
+		.map-controls {
+			order: 1;
+		}
+
+		.style-buttons,
+		.location-buttons {
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+
+		.style-btn,
+		.loc-btn {
+			flex: 1 1 auto;
+			text-align: center;
+		}
+	}
+</style>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+<script is:inline src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+
+<script is:inline>
+	// Replace with your Mapbox access token
+	const MAPBOX_TOKEN = 'YOUR_MAPBOX_ACCESS_TOKEN';
+	
+	document.addEventListener('DOMContentLoaded', () => {
+		if (MAPBOX_TOKEN === 'YOUR_MAPBOX_ACCESS_TOKEN') {
+			document.getElementById('map').innerHTML = `
+				<div style="display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column; gap: 1rem; color: #a1a1a1; padding: 2rem; text-align: center;">
+					<span style="font-size: 3rem;">🗺️</span>
+					<p>Add your Mapbox token to see the map!</p>
+					<code style="background: #141414; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem;">const MAPBOX_TOKEN = 'pk.xxx...'</code>
+				</div>
+			`;
+			return;
+		}
+
+		mapboxgl.accessToken = MAPBOX_TOKEN;
+
+		const map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/dark-v11',
+			center: [-72.5754, 44.2601], // Vermont
+			zoom: 8,
+			pitch: 45
+		});
+
+		map.addControl(new mapboxgl.NavigationControl());
+		map.addControl(new mapboxgl.FullscreenControl());
+
+		// Style buttons
+		document.querySelectorAll('.style-btn').forEach(btn => {
+			btn.addEventListener('click', () => {
+				document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+				btn.classList.add('active');
+				map.setStyle(btn.dataset.style);
+			});
+		});
+
+		// Location buttons
+		document.querySelectorAll('.loc-btn').forEach(btn => {
+			btn.addEventListener('click', () => {
+				map.flyTo({
+					center: [parseFloat(btn.dataset.lng), parseFloat(btn.dataset.lat)],
+					zoom: parseFloat(btn.dataset.zoom),
+					duration: 2000
+				});
+			});
+		});
+	});
+</script>

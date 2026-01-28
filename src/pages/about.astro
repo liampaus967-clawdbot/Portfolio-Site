@@ -1,0 +1,246 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About">
+	<section class="about-header">
+		<div class="about-intro">
+			<h1>About Me</h1>
+			<p class="tagline">Vermont-based. Water-obsessed. Map-addicted.</p>
+		</div>
+	</section>
+
+	<section class="about-content">
+		<div class="about-main">
+			<h2>Hey, I'm Liam 👋</h2>
+			<p>
+				I'm the Head of GIS & Mapping at <a href="https://onwater.com" target="_blank">onWater</a>, 
+				where I lead the development of interactive maps for millions of anglers and paddlers. 
+				My work sits at the intersection of cartography, data engineering, and outdoor recreation.
+			</p>
+			<p>
+				Every day, I work with massive geospatial datasets — processing vector tiles, wrangling 
+				raster data from sources like NOAA's HRRR weather system, and building visualization 
+				tools with Mapbox GL JS. I love the challenge of turning terabytes of raw geodata into 
+				something people actually want to use.
+			</p>
+			<p>
+				When I'm not mapping, I'm probably skiing in the Vermont backcountry or mountain biking 
+				somewhere muddy. The outdoors isn't just what I map — it's what I live for.
+			</p>
+
+			<h2>What I Work With</h2>
+			<div class="tech-grid">
+				<div class="tech-category">
+					<h3>Mapping</h3>
+					<ul>
+						<li>Mapbox GL JS</li>
+						<li>Vector Tiles</li>
+						<li>Custom Cartography</li>
+						<li>WebGL</li>
+					</ul>
+				</div>
+				<div class="tech-category">
+					<h3>Data</h3>
+					<ul>
+						<li>PostGIS</li>
+						<li>GDAL/OGR</li>
+						<li>Raster Processing</li>
+						<li>NHDPlus / USGS</li>
+					</ul>
+				</div>
+				<div class="tech-category">
+					<h3>Development</h3>
+					<ul>
+						<li>JavaScript / TypeScript</li>
+						<li>React</li>
+						<li>Node.js</li>
+						<li>Python</li>
+					</ul>
+				</div>
+				<div class="tech-category">
+					<h3>Interests</h3>
+					<ul>
+						<li>Weather Visualization</li>
+						<li>Hydrology Modeling</li>
+						<li>3D Terrain</li>
+						<li>Data Pipelines</li>
+					</ul>
+				</div>
+			</div>
+
+			<h2>Get In Touch</h2>
+			<p>
+				I'm always interested in talking maps, geospatial tech, or outdoor adventures. 
+				Find me on the links below.
+			</p>
+			<div class="social-links">
+				<a href="https://github.com/liampaus967-clawdbot" target="_blank" class="social-link">
+					<span class="icon">💻</span> GitHub
+				</a>
+				<a href="https://linkedin.com" target="_blank" class="social-link">
+					<span class="icon">💼</span> LinkedIn
+				</a>
+				<a href="mailto:hello@example.com" class="social-link">
+					<span class="icon">📧</span> Email
+				</a>
+			</div>
+		</div>
+
+		<aside class="about-sidebar">
+			<div class="sidebar-card">
+				<h3>Currently</h3>
+				<p>Head of GIS & Mapping<br/><a href="https://onwater.com" target="_blank">onWater</a></p>
+			</div>
+			<div class="sidebar-card">
+				<h3>Location</h3>
+				<p>Vermont, USA 🏔️</p>
+			</div>
+			<div class="sidebar-card">
+				<h3>Hobbies</h3>
+				<p>Skiing ⛷️<br/>Mountain Biking 🚵<br/>Fishing 🎣</p>
+			</div>
+		</aside>
+	</section>
+</Layout>
+
+<style>
+	.about-header {
+		padding: 2rem 0 3rem;
+	}
+
+	.about-header h1 {
+		font-size: 3rem;
+		font-weight: 700;
+		margin-bottom: 0.5rem;
+	}
+
+	.tagline {
+		color: var(--text-muted);
+		font-size: 1.25rem;
+	}
+
+	.about-content {
+		display: grid;
+		grid-template-columns: 1fr 280px;
+		gap: 3rem;
+	}
+
+	.about-main h2 {
+		font-size: 1.5rem;
+		margin: 2.5rem 0 1rem;
+	}
+
+	.about-main h2:first-child {
+		margin-top: 0;
+	}
+
+	.about-main p {
+		color: var(--text-muted);
+		line-height: 1.8;
+		margin-bottom: 1rem;
+		font-size: 1.05rem;
+	}
+
+	.tech-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1.5rem;
+		margin: 1.5rem 0;
+	}
+
+	.tech-category h3 {
+		font-size: 0.9rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--accent);
+		margin-bottom: 0.75rem;
+	}
+
+	.tech-category ul {
+		list-style: none;
+	}
+
+	.tech-category li {
+		color: var(--text-muted);
+		padding: 0.25rem 0;
+		font-size: 0.95rem;
+	}
+
+	.social-links {
+		display: flex;
+		gap: 1rem;
+		margin-top: 1.5rem;
+		flex-wrap: wrap;
+	}
+
+	.social-link {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		padding: 0.75rem 1.25rem;
+		border-radius: 8px;
+		color: var(--text);
+		transition: all 0.2s ease;
+	}
+
+	.social-link:hover {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	.icon {
+		font-size: 1.1rem;
+	}
+
+	.about-sidebar {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.sidebar-card {
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		padding: 1.25rem;
+	}
+
+	.sidebar-card h3 {
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--text-muted);
+		margin-bottom: 0.5rem;
+	}
+
+	.sidebar-card p {
+		font-size: 1rem;
+		line-height: 1.6;
+	}
+
+	@media (max-width: 768px) {
+		.about-header h1 {
+			font-size: 2rem;
+		}
+
+		.about-content {
+			grid-template-columns: 1fr;
+		}
+
+		.about-sidebar {
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+
+		.sidebar-card {
+			flex: 1 1 150px;
+		}
+
+		.tech-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

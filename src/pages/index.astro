@@ -1,0 +1,297 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Home">
+	<section class="hero">
+		<div class="hero-content">
+			<h1>Liam</h1>
+			<p class="tagline">Vermont-based. Water-obsessed. Map-addicted.</p>
+			<p class="intro">
+				Head of GIS & Mapping at <a href="https://onwater.com" target="_blank">onWater</a>. 
+				I build interactive maps that help people explore waterways, find fish, and paddle new routes.
+			</p>
+			<div class="cta-buttons">
+				<a href="/projects" class="btn btn-primary">View My Work</a>
+				<a href="/sandbox" class="btn btn-secondary">Map Sandbox</a>
+			</div>
+		</div>
+		<div class="hero-visual">
+			<div class="map-placeholder">
+				<span>🗺️</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="skills">
+		<h2>What I Do</h2>
+		<div class="skill-grid">
+			<div class="skill-card">
+				<div class="skill-icon">📍</div>
+				<h3>Interactive Mapping</h3>
+				<p>Building beautiful, performant web maps with Mapbox GL JS and custom vector tiles.</p>
+			</div>
+			<div class="skill-card">
+				<div class="skill-icon">📊</div>
+				<h3>Geospatial Data</h3>
+				<p>Processing massive vector and raster datasets. HRRR weather data, NHDPlus hydrology, and more.</p>
+			</div>
+			<div class="skill-card">
+				<div class="skill-icon">🌊</div>
+				<h3>Water Tech</h3>
+				<p>Specialized in waterway data — rivers, lakes, fishing spots, paddle routes, and bathymetry.</p>
+			</div>
+			<div class="skill-card">
+				<div class="skill-icon">⚡</div>
+				<h3>R&D</h3>
+				<p>Always exploring new visualization techniques and data sources to push maps forward.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="featured">
+		<h2>Featured Projects</h2>
+		<p class="section-intro">A few things I've built recently.</p>
+		<div class="project-preview">
+			<div class="project-card">
+				<div class="project-image">🎣</div>
+				<div class="project-info">
+					<h3>onWater Map Platform</h3>
+					<p>Interactive fishing maps serving millions of anglers across North America.</p>
+					<a href="/projects" class="project-link">Learn more →</a>
+				</div>
+			</div>
+			<div class="project-card">
+				<div class="project-image">🛶</div>
+				<div class="project-info">
+					<h3>Paddleways</h3>
+					<p>Mapping paddle routes for kayakers and canoeists with real-time conditions.</p>
+					<a href="/projects" class="project-link">Learn more →</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.hero {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
+		align-items: center;
+		min-height: 70vh;
+		padding: 2rem 0;
+	}
+
+	.hero-content h1 {
+		font-size: 4rem;
+		font-weight: 700;
+		margin-bottom: 1rem;
+		background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.tagline {
+		font-size: 1.5rem;
+		color: var(--text-muted);
+		margin-bottom: 1.5rem;
+		font-weight: 300;
+	}
+
+	.intro {
+		font-size: 1.1rem;
+		line-height: 1.7;
+		color: var(--text-muted);
+		margin-bottom: 2rem;
+	}
+
+	.cta-buttons {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.btn {
+		padding: 0.75rem 1.5rem;
+		border-radius: 8px;
+		font-weight: 500;
+		font-size: 0.95rem;
+		transition: all 0.2s ease;
+	}
+
+	.btn-primary {
+		background: var(--accent);
+		color: white;
+	}
+
+	.btn-primary:hover {
+		background: var(--accent-hover);
+		color: white;
+	}
+
+	.btn-secondary {
+		background: var(--bg-secondary);
+		color: var(--text);
+		border: 1px solid var(--border);
+	}
+
+	.btn-secondary:hover {
+		background: var(--border);
+		color: var(--text);
+	}
+
+	.hero-visual {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.map-placeholder {
+		width: 100%;
+		aspect-ratio: 1;
+		max-width: 400px;
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		border-radius: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 6rem;
+	}
+
+	.skills {
+		padding: 4rem 0;
+	}
+
+	.skills h2 {
+		font-size: 2rem;
+		margin-bottom: 2rem;
+	}
+
+	.skill-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1.5rem;
+	}
+
+	.skill-card {
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		padding: 1.5rem;
+		transition: border-color 0.2s ease;
+	}
+
+	.skill-card:hover {
+		border-color: var(--accent);
+	}
+
+	.skill-icon {
+		font-size: 2rem;
+		margin-bottom: 1rem;
+	}
+
+	.skill-card h3 {
+		font-size: 1.1rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.skill-card p {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		line-height: 1.6;
+	}
+
+	.featured {
+		padding: 4rem 0;
+	}
+
+	.featured h2 {
+		font-size: 2rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.section-intro {
+		color: var(--text-muted);
+		margin-bottom: 2rem;
+	}
+
+	.project-preview {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1.5rem;
+	}
+
+	.project-card {
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		overflow: hidden;
+		transition: border-color 0.2s ease, transform 0.2s ease;
+	}
+
+	.project-card:hover {
+		border-color: var(--accent);
+		transform: translateY(-4px);
+	}
+
+	.project-image {
+		height: 160px;
+		background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 4rem;
+	}
+
+	.project-info {
+		padding: 1.5rem;
+	}
+
+	.project-info h3 {
+		margin-bottom: 0.5rem;
+	}
+
+	.project-info p {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		margin-bottom: 1rem;
+		line-height: 1.5;
+	}
+
+	.project-link {
+		font-size: 0.9rem;
+		font-weight: 500;
+	}
+
+	@media (max-width: 768px) {
+		.hero {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+			min-height: auto;
+			padding: 1rem 0;
+		}
+
+		.hero-content h1 {
+			font-size: 2.5rem;
+		}
+
+		.tagline {
+			font-size: 1.2rem;
+		}
+
+		.hero-visual {
+			order: -1;
+		}
+
+		.map-placeholder {
+			max-width: 200px;
+			font-size: 4rem;
+		}
+
+		.cta-buttons {
+			flex-direction: column;
+		}
+	}
+</style>
