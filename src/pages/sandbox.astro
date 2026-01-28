@@ -242,22 +242,7 @@ import Layout from '../layouts/Layout.astro';
 					console.log('Source added: rivers-dissolved');
 				}
 
-				// DEBUG: Add visible dissolved layer to check properties
-				if (!map.getLayer('dissolved-debug')) {
-					map.addLayer({
-						id: 'dissolved-debug',
-						type: 'line',
-						source: 'rivers-dissolved',
-						'source-layer': 'subsetRivers_dissolved-8elp6g',
-						paint: {
-							'line-color': '#ff0000',
-							'line-width': 4
-						}
-					});
-					console.log('DEBUG layer added - click red lines to see properties');
-				}
-
-				// Add river labels using dissolved layer with line placement
+				// Add river labels using dissolved layer
 				if (!map.getLayer('subsetRivers-labels')) {
 					const style = map.getStyle();
 					console.log('Style glyphs:', style.glyphs);
@@ -269,7 +254,7 @@ import Layout from '../layouts/Layout.astro';
 						'source-layer': 'subsetRivers_dissolved-8elp6g',
 						layout: {
 							'symbol-placement': 'point',
-							'text-field': ['get', 'GNIS_NAME'],
+							'text-field': ['get', 'name'],
 							'text-font': ['DIN Pro Italic', 'Arial Unicode MS Regular'],
 							'text-size': 11,
 							'text-letter-spacing': 0.05,
