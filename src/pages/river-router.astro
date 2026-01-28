@@ -1,0 +1,763 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="River Router">
+	<section class="router-header">
+		<h1>🛶 River Router</h1>
+		<p>Click a put-in and take-out on the river network to get a float route with estimated times.</p>
+	</section>
+
+	<section class="router-container">
+		<div id="map"></div>
+		<div class="route-panel">
+			<div class="panel-section">
+				<h3>📍 Route</h3>
+				<div class="route-inputs">
+					<div class="input-row">
+						<span class="dot put-in-dot"></span>
+						<span id="put-in-label" class="input-label">Click map to set put-in</span>
+					</div>
+					<div class="input-row">
+						<span class="dot take-out-dot"></span>
+						<span id="take-out-label" class="input-label">Then click to set take-out</span>
+					</div>
+				</div>
+				<button id="clear-btn" class="clear-btn" style="display:none;">Clear Route</button>
+			</div>
+
+			<div id="route-stats" class="panel-section" style="display:none;">
+				<h3>📊 Trip Stats</h3>
+				<div class="stat-grid">
+					<div class="stat">
+						<span class="stat-value" id="stat-distance">—</span>
+						<span class="stat-label">miles</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value" id="stat-float">—</span>
+						<span class="stat-label">float time</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value" id="stat-drop">—</span>
+						<span class="stat-label">ft drop</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value" id="stat-gradient">—</span>
+						<span class="stat-label">ft/mi</span>
+					</div>
+				</div>
+				<div class="waterway-names" id="waterway-names"></div>
+			</div>
+
+			<div id="paddle-section" class="panel-section" style="display:none;">
+				<h3>🏋️ Paddle Speed</h3>
+				<div class="slider-container">
+					<input type="range" id="paddle-slider" min="0" max="5" step="0.5" value="0">
+					<div class="slider-labels">
+						<span>Float</span>
+						<span id="paddle-value">+0 mph</span>
+						<span>+5 mph</span>
+					</div>
+				</div>
+				<div class="paddle-time">
+					Paddle time: <strong id="paddle-time-value">—</strong>
+				</div>
+			</div>
+
+			<div id="elevation-section" class="panel-section" style="display:none;">
+				<h3>📈 Elevation Profile</h3>
+				<canvas id="elevation-chart" height="120"></canvas>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.router-header {
+		padding: 2rem 0 1rem;
+	}
+
+	.router-header h1 {
+		font-size: 2.5rem;
+		font-weight: 700;
+		margin-bottom: 0.5rem;
+	}
+
+	.router-header p {
+		color: var(--text-muted);
+		font-size: 1rem;
+	}
+
+	.router-container {
+		display: grid;
+		grid-template-columns: 1fr 320px;
+		gap: 1.5rem;
+		margin-bottom: 3rem;
+	}
+
+	#map {
+		height: 600px;
+		border-radius: 12px;
+		border: 1px solid var(--border);
+		background: var(--bg-secondary);
+		cursor: crosshair;
+	}
+
+	.route-panel {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.panel-section {
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		padding: 1.25rem;
+	}
+
+	.panel-section h3 {
+		font-size: 0.85rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--text-muted);
+		margin-bottom: 0.75rem;
+	}
+
+	.route-inputs {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.input-row {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.dot {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+	.put-in-dot { background: #22c55e; }
+	.take-out-dot { background: #ef4444; }
+
+	.input-label {
+		font-size: 0.85rem;
+		color: var(--text-muted);
+	}
+
+	.input-label.set {
+		color: var(--text);
+	}
+
+	.clear-btn {
+		width: 100%;
+		margin-top: 0.75rem;
+		padding: 0.5rem;
+		background: var(--bg);
+		border: 1px solid var(--border);
+		color: var(--text);
+		border-radius: 8px;
+		cursor: pointer;
+		font-size: 0.8rem;
+	}
+
+	.clear-btn:hover {
+		border-color: #ef4444;
+		color: #ef4444;
+	}
+
+	.stat-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.75rem;
+	}
+
+	.stat {
+		text-align: center;
+		padding: 0.5rem;
+		background: var(--bg);
+		border-radius: 8px;
+	}
+
+	.stat-value {
+		display: block;
+		font-size: 1.4rem;
+		font-weight: 700;
+		color: var(--accent, #60a5fa);
+	}
+
+	.stat-label {
+		font-size: 0.7rem;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+	}
+
+	.waterway-names {
+		margin-top: 0.75rem;
+		font-size: 0.8rem;
+		color: var(--text-muted);
+	}
+
+	.slider-container {
+		padding: 0 0.25rem;
+	}
+
+	#paddle-slider {
+		width: 100%;
+		margin-bottom: 0.25rem;
+	}
+
+	.slider-labels {
+		display: flex;
+		justify-content: space-between;
+		font-size: 0.7rem;
+		color: var(--text-muted);
+	}
+
+	.paddle-time {
+		margin-top: 0.75rem;
+		font-size: 0.95rem;
+		text-align: center;
+		padding: 0.5rem;
+		background: var(--bg);
+		border-radius: 8px;
+	}
+
+	#elevation-chart {
+		width: 100%;
+		border-radius: 8px;
+	}
+
+	@media (max-width: 768px) {
+		.router-header h1 { font-size: 1.8rem; }
+		.router-container {
+			grid-template-columns: 1fr;
+		}
+		#map { height: 400px; }
+	}
+</style>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+<script is:inline src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+
+<script is:inline>
+const MAPBOX_TOKEN = 'pk.eyJ1IjoibG1hbjk2NyIsImEiOiJjbWlta3E4c3YxeWRuM2dwdm5iMHY1aWJuIn0.hr3fofye3scvgOHlvewLyw';
+
+// ==========================================
+// Dijkstra's Algorithm (client-side routing)
+// ==========================================
+class RiverNetwork {
+	constructor(data) {
+		this.nodes = data.nodes;
+		this.meta = data.meta;
+		
+		// Build adjacency list (undirected for paddling)
+		this.adj = {};
+		this.edgeMap = {};
+		
+		data.edges.forEach((e, i) => {
+			// Forward direction (downstream)
+			if (!this.adj[e.f]) this.adj[e.f] = [];
+			this.adj[e.f].push({ node: e.t, idx: i });
+			
+			// Reverse direction (upstream paddling possible)
+			if (!this.adj[e.t]) this.adj[e.t] = [];
+			this.adj[e.t].push({ node: e.f, idx: i });
+			
+			this.edgeMap[i] = e;
+		});
+		
+		this.edges = data.edges;
+	}
+	
+	// Find nearest node to a lat/lng
+	snapToNode(lng, lat) {
+		let bestNode = null;
+		let bestDist = Infinity;
+		
+		for (const [id, coord] of Object.entries(this.nodes)) {
+			const dx = coord[0] - lng;
+			const dy = coord[1] - lat;
+			const d = dx * dx + dy * dy;
+			if (d < bestDist) {
+				bestDist = d;
+				bestNode = id;
+			}
+		}
+		
+		const distM = Math.sqrt(bestDist) * 111000 * Math.cos(lat * Math.PI / 180);
+		return { node: bestNode, coord: this.nodes[bestNode], distM };
+	}
+	
+	// Dijkstra shortest path
+	route(startNode, endNode) {
+		const dist = {};
+		const prev = {};
+		const prevEdge = {};
+		const visited = new Set();
+		
+		// Priority queue (simple array-based for small graph)
+		const queue = [];
+		
+		dist[startNode] = 0;
+		queue.push({ node: startNode, d: 0 });
+		
+		while (queue.length > 0) {
+			// Find min distance node
+			queue.sort((a, b) => a.d - b.d);
+			const { node: u } = queue.shift();
+			
+			if (visited.has(u)) continue;
+			visited.add(u);
+			
+			if (u === endNode) break;
+			
+			const neighbors = this.adj[u] || [];
+			for (const { node: v, idx } of neighbors) {
+				if (visited.has(v)) continue;
+				
+				const edge = this.edgeMap[idx];
+				const weight = edge.l; // length in meters
+				const newDist = dist[u] + weight;
+				
+				if (newDist < (dist[v] || Infinity)) {
+					dist[v] = newDist;
+					prev[v] = u;
+					prevEdge[v] = idx;
+					queue.push({ node: v, d: newDist });
+				}
+			}
+		}
+		
+		if (!(endNode in prev) && startNode !== endNode) return null;
+		
+		// Reconstruct path
+		const path = [];
+		const edgeIndices = [];
+		let current = endNode;
+		while (current !== startNode) {
+			path.unshift(current);
+			edgeIndices.unshift(prevEdge[current]);
+			current = prev[current];
+		}
+		path.unshift(startNode);
+		
+		return { path, edgeIndices };
+	}
+	
+	// Calculate route stats
+	calcStats(edgeIndices, paddleSpeedMph = 0) {
+		const paddleMs = paddleSpeedMph * 0.44704;
+		
+		let totalDist = 0;
+		let totalFloatTime = 0;
+		let totalPaddleTime = 0;
+		let elevations = [];
+		let distAcc = 0;
+		const names = new Set();
+		
+		let elevStart = null;
+		let elevEnd = null;
+		
+		for (const idx of edgeIndices) {
+			const e = this.edgeMap[idx];
+			totalDist += e.l;
+			
+			// Float time
+			const vel = e.v || 0.5;
+			totalFloatTime += e.l / vel;
+			
+			// Paddle time
+			const effSpeed = vel + paddleMs;
+			if (effSpeed > 0) totalPaddleTime += e.l / effSpeed;
+			
+			// Elevation profile
+			if (e.es !== null) {
+				if (elevStart === null) elevStart = e.es;
+				elevations.push({ dist: distAcc, elev: e.es });
+			}
+			distAcc += e.l;
+			if (e.ee !== null) {
+				elevEnd = e.ee;
+				elevations.push({ dist: distAcc, elev: e.ee });
+			}
+			
+			if (e.n) names.add(e.n);
+		}
+		
+		const distMi = totalDist / 1609.34;
+		const dropFt = elevStart && elevEnd ? (elevStart - elevEnd) * 3.28084 : 0;
+		
+		return {
+			distanceMi: distMi,
+			distanceKm: totalDist / 1000,
+			floatTimeH: totalFloatTime / 3600,
+			paddleTimeH: totalPaddleTime / 3600,
+			elevDrop: dropFt,
+			gradient: distMi > 0 ? dropFt / distMi : 0,
+			elevations,
+			waterways: [...names],
+			avgFlowMph: totalDist / totalFloatTime * 2.23694,
+		};
+	}
+	
+	// Get route as GeoJSON
+	routeGeoJSON(edgeIndices) {
+		const features = edgeIndices.map(idx => {
+			const e = this.edgeMap[idx];
+			return {
+				type: "Feature",
+				geometry: {
+					type: "LineString",
+					coordinates: e.c
+				},
+				properties: { name: e.n, order: e.o }
+			};
+		});
+		return { type: "FeatureCollection", features };
+	}
+}
+
+// ==========================================
+// Elevation Chart (pure canvas)
+// ==========================================
+function drawElevationProfile(canvas, elevations) {
+	const ctx = canvas.getContext('2d');
+	const W = canvas.width = canvas.offsetWidth * 2;
+	const H = canvas.height = 240;
+	ctx.clearRect(0, 0, W, H);
+	
+	if (!elevations.length) return;
+	
+	const pad = { top: 20, right: 20, bottom: 30, left: 50 };
+	const chartW = W - pad.left - pad.right;
+	const chartH = H - pad.top - pad.bottom;
+	
+	const maxDist = elevations[elevations.length - 1].dist;
+	const elevs = elevations.map(e => e.elev);
+	const minElev = Math.min(...elevs) - 5;
+	const maxElev = Math.max(...elevs) + 5;
+	const elevRange = maxElev - minElev || 1;
+	
+	const toX = d => pad.left + (d / maxDist) * chartW;
+	const toY = e => pad.top + (1 - (e - minElev) / elevRange) * chartH;
+	
+	// Fill gradient
+	const grad = ctx.createLinearGradient(0, pad.top, 0, H - pad.bottom);
+	grad.addColorStop(0, 'rgba(96, 165, 250, 0.3)');
+	grad.addColorStop(1, 'rgba(96, 165, 250, 0.05)');
+	
+	ctx.beginPath();
+	ctx.moveTo(toX(elevations[0].dist), H - pad.bottom);
+	elevations.forEach(p => ctx.lineTo(toX(p.dist), toY(p.elev)));
+	ctx.lineTo(toX(elevations[elevations.length - 1].dist), H - pad.bottom);
+	ctx.closePath();
+	ctx.fillStyle = grad;
+	ctx.fill();
+	
+	// Line
+	ctx.beginPath();
+	elevations.forEach((p, i) => {
+		const x = toX(p.dist);
+		const y = toY(p.elev);
+		i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+	});
+	ctx.strokeStyle = '#60a5fa';
+	ctx.lineWidth = 2;
+	ctx.stroke();
+	
+	// Axes
+	ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+	ctx.lineWidth = 1;
+	ctx.beginPath();
+	ctx.moveTo(pad.left, pad.top);
+	ctx.lineTo(pad.left, H - pad.bottom);
+	ctx.lineTo(W - pad.right, H - pad.bottom);
+	ctx.stroke();
+	
+	// Labels
+	ctx.fillStyle = 'rgba(255,255,255,0.5)';
+	ctx.font = '18px sans-serif';
+	ctx.textAlign = 'right';
+	
+	const elevStepFt = Math.ceil(elevRange * 3.28084 / 4);
+	for (let i = 0; i <= 4; i++) {
+		const elevM = minElev + (elevRange * i / 4);
+		const elevFt = Math.round(elevM * 3.28084);
+		const y = toY(elevM);
+		ctx.fillText(`${elevFt}'`, pad.left - 5, y + 5);
+		
+		ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+		ctx.beginPath();
+		ctx.moveTo(pad.left, y);
+		ctx.lineTo(W - pad.right, y);
+		ctx.stroke();
+	}
+	
+	ctx.textAlign = 'center';
+	const distStepMi = maxDist / 1609.34 / 4;
+	for (let i = 0; i <= 4; i++) {
+		const d = (maxDist * i) / 4;
+		const mi = (d / 1609.34).toFixed(1);
+		ctx.fillText(`${mi} mi`, toX(d), H - pad.bottom + 20);
+	}
+}
+
+// ==========================================
+// Format time
+// ==========================================
+function formatTime(hours) {
+	const h = Math.floor(hours);
+	const m = Math.round((hours - h) * 60);
+	if (h > 0) return `${h}h ${m.toString().padStart(2, '0')}m`;
+	return `${m}m`;
+}
+
+// ==========================================
+// Main App
+// ==========================================
+document.addEventListener('DOMContentLoaded', async () => {
+	mapboxgl.accessToken = MAPBOX_TOKEN;
+	
+	const map = new mapboxgl.Map({
+		container: 'map',
+		style: '/styles/fishing-outdoor.json',
+		center: [-72.70, 44.38],
+		zoom: 11
+	});
+	
+	map.addControl(new mapboxgl.NavigationControl());
+	
+	// Load river network
+	const resp = await fetch('/data/river-network.json');
+	const networkData = await resp.json();
+	const network = new RiverNetwork(networkData);
+	console.log(`Loaded network: ${networkData.meta.total_nodes} nodes, ${networkData.meta.total_edges} edges`);
+	
+	// State
+	let putIn = null;
+	let takeOut = null;
+	let putInMarker = null;
+	let takeOutMarker = null;
+	let currentRoute = null;
+	let currentEdgeIndices = null;
+	
+	// Elements
+	const putInLabel = document.getElementById('put-in-label');
+	const takeOutLabel = document.getElementById('take-out-label');
+	const clearBtn = document.getElementById('clear-btn');
+	const routeStats = document.getElementById('route-stats');
+	const paddleSection = document.getElementById('paddle-section');
+	const elevSection = document.getElementById('elevation-section');
+	const paddleSlider = document.getElementById('paddle-slider');
+	const paddleValue = document.getElementById('paddle-value');
+	const paddleTimeValue = document.getElementById('paddle-time-value');
+	
+	map.on('load', () => {
+		// Draw all rivers as background
+		const allRiverFeatures = networkData.edges.map(e => ({
+			type: "Feature",
+			geometry: { type: "LineString", coordinates: e.c },
+			properties: { name: e.n, order: e.o }
+		}));
+		
+		map.addSource('all-rivers', {
+			type: 'geojson',
+			data: { type: "FeatureCollection", features: allRiverFeatures }
+		});
+		
+		map.addLayer({
+			id: 'all-rivers',
+			type: 'line',
+			source: 'all-rivers',
+			paint: {
+				'line-color': '#3b82f6',
+				'line-width': ['interpolate', ['linear'], ['get', 'order'], 1, 1, 4, 2, 7, 4],
+				'line-opacity': 0.4
+			}
+		});
+		
+		// River labels
+		map.addLayer({
+			id: 'all-rivers-labels',
+			type: 'symbol',
+			source: 'all-rivers',
+			filter: ['!=', ['get', 'name'], ''],
+			layout: {
+				'symbol-placement': 'line-center',
+				'text-field': ['get', 'name'],
+				'text-font': ['DIN Pro Italic', 'Arial Unicode MS Regular'],
+				'text-size': 10,
+				'text-allow-overlap': false,
+				'text-optional': true
+			},
+			paint: {
+				'text-color': 'rgba(168, 212, 255, 0.6)',
+				'text-halo-color': 'rgba(10, 40, 80, 0.8)',
+				'text-halo-width': 1
+			}
+		});
+		
+		// Route layer (empty initially)
+		map.addSource('route', {
+			type: 'geojson',
+			data: { type: "FeatureCollection", features: [] }
+		});
+		
+		map.addLayer({
+			id: 'route-line',
+			type: 'line',
+			source: 'route',
+			paint: {
+				'line-color': '#fbbf24',
+				'line-width': 5,
+				'line-opacity': 0.9
+			},
+			layout: {
+				'line-cap': 'round',
+				'line-join': 'round'
+			}
+		});
+		
+		// Route glow
+		map.addLayer({
+			id: 'route-glow',
+			type: 'line',
+			source: 'route',
+			paint: {
+				'line-color': '#fbbf24',
+				'line-width': 12,
+				'line-opacity': 0.2
+			},
+			layout: {
+				'line-cap': 'round',
+				'line-join': 'round'
+			}
+		}, 'route-line');
+	});
+	
+	// Click handler
+	map.on('click', (e) => {
+		const { lng, lat } = e.lngLat;
+		
+		const snap = network.snapToNode(lng, lat);
+		if (snap.distM > 2000) {
+			// Too far from network
+			console.log(`Click too far from river: ${snap.distM.toFixed(0)}m`);
+			return;
+		}
+		
+		if (!putIn) {
+			// Set put-in
+			putIn = snap;
+			if (putInMarker) putInMarker.remove();
+			putInMarker = new mapboxgl.Marker({ color: '#22c55e' })
+				.setLngLat(snap.coord)
+				.addTo(map);
+			putInLabel.textContent = `${snap.coord[1].toFixed(4)}, ${snap.coord[0].toFixed(4)}`;
+			putInLabel.classList.add('set');
+			takeOutLabel.textContent = 'Click map to set take-out';
+			clearBtn.style.display = 'block';
+			
+		} else if (!takeOut) {
+			// Set take-out
+			takeOut = snap;
+			if (takeOutMarker) takeOutMarker.remove();
+			takeOutMarker = new mapboxgl.Marker({ color: '#ef4444' })
+				.setLngLat(snap.coord)
+				.addTo(map);
+			takeOutLabel.textContent = `${snap.coord[1].toFixed(4)}, ${snap.coord[0].toFixed(4)}`;
+			takeOutLabel.classList.add('set');
+			
+			// Route!
+			computeRoute();
+		}
+	});
+	
+	function computeRoute() {
+		const result = network.route(putIn.node, takeOut.node);
+		
+		if (!result) {
+			takeOutLabel.textContent = 'No route found! Try another point.';
+			takeOut = null;
+			if (takeOutMarker) { takeOutMarker.remove(); takeOutMarker = null; }
+			return;
+		}
+		
+		currentRoute = result;
+		currentEdgeIndices = result.edgeIndices;
+		
+		// Draw route on map
+		const geojson = network.routeGeoJSON(result.edgeIndices);
+		map.getSource('route').setData(geojson);
+		
+		// Fit map to route
+		const coords = geojson.features.flatMap(f => f.geometry.coordinates);
+		const bounds = coords.reduce((b, c) => b.extend(c), new mapboxgl.LngLatBounds(coords[0], coords[0]));
+		map.fitBounds(bounds, { padding: 60 });
+		
+		// Show stats
+		updateStats(0);
+		
+		routeStats.style.display = 'block';
+		paddleSection.style.display = 'block';
+		elevSection.style.display = 'block';
+		paddleSlider.value = 0;
+		paddleValue.textContent = '+0 mph';
+	}
+	
+	function updateStats(paddleMph) {
+		const stats = network.calcStats(currentEdgeIndices, paddleMph);
+		
+		document.getElementById('stat-distance').textContent = stats.distanceMi.toFixed(1);
+		document.getElementById('stat-float').textContent = formatTime(stats.floatTimeH);
+		document.getElementById('stat-drop').textContent = Math.round(stats.elevDrop);
+		document.getElementById('stat-gradient').textContent = stats.gradient.toFixed(1);
+		
+		const nameEl = document.getElementById('waterway-names');
+		nameEl.textContent = stats.waterways.length ? `Via: ${stats.waterways.join(' → ')}` : '';
+		
+		paddleTimeValue.textContent = formatTime(stats.paddleTimeH);
+		
+		// Draw elevation profile
+		drawElevationProfile(document.getElementById('elevation-chart'), stats.elevations);
+	}
+	
+	// Paddle speed slider
+	paddleSlider.addEventListener('input', (e) => {
+		const val = parseFloat(e.target.value);
+		paddleValue.textContent = `+${val} mph`;
+		if (currentEdgeIndices) updateStats(val);
+	});
+	
+	// Clear button
+	clearBtn.addEventListener('click', () => {
+		putIn = null;
+		takeOut = null;
+		currentRoute = null;
+		currentEdgeIndices = null;
+		
+		if (putInMarker) { putInMarker.remove(); putInMarker = null; }
+		if (takeOutMarker) { takeOutMarker.remove(); takeOutMarker = null; }
+		
+		putInLabel.textContent = 'Click map to set put-in';
+		putInLabel.classList.remove('set');
+		takeOutLabel.textContent = 'Then click to set take-out';
+		takeOutLabel.classList.remove('set');
+		clearBtn.style.display = 'none';
+		routeStats.style.display = 'none';
+		paddleSection.style.display = 'none';
+		elevSection.style.display = 'none';
+		
+		map.getSource('route').setData({ type: "FeatureCollection", features: [] });
+	});
+});
+</script>
+</Layout>
