@@ -233,7 +233,16 @@ import Layout from '../layouts/Layout.astro';
 					console.log('Layer added: subsetRivers-layer');
 				}
 
-				// Add river labels using point placement
+				// Add dissolved rivers source for labels (cleaner labeling)
+				if (!map.getSource('rivers-dissolved')) {
+					map.addSource('rivers-dissolved', {
+						type: 'vector',
+						url: 'mapbox://lman967.474i03e2'
+					});
+					console.log('Source added: rivers-dissolved');
+				}
+
+				// Add river labels using dissolved layer with line placement
 				if (!map.getLayer('subsetRivers-labels')) {
 					const style = map.getStyle();
 					console.log('Style glyphs:', style.glyphs);
@@ -241,31 +250,27 @@ import Layout from '../layouts/Layout.astro';
 					map.addLayer({
 						id: 'subsetRivers-labels',
 						type: 'symbol',
-						source: 'subsetRivers',
-						'source-layer': 'subsetRivers-d1irb0',
+						source: 'rivers-dissolved',
+						'source-layer': 'subsetRivers_dissolved-8elp6g',
 						layout: {
-							'symbol-placement': 'point',
-							'text-field': '{name}',
+							'symbol-placement': 'line',
+							'text-field': ['get', 'GNIS_NAME'],
 							'text-font': ['DIN Pro Italic', 'Arial Unicode MS Regular'],
 							'text-size': 11,
 							'text-letter-spacing': 0.05,
-							'text-anchor': 'center',
+							'symbol-spacing': 500,
+							'text-max-angle': 30,
 							'text-allow-overlap': false,
 							'text-ignore-placement': false,
 							'text-optional': true
 						},
 						paint: {
-							'text-color': '#ffffff',
+							'text-color': '#a8d4ff',
 							'text-halo-color': 'rgba(10, 40, 80, 0.95)',
 							'text-halo-width': 1.5
 						}
 					});
-					console.log('Layer added: subsetRivers-labels');
-					
-					setTimeout(() => {
-						const features = map.queryRenderedFeatures({ layers: ['subsetRivers-labels'] });
-						console.log('Rendered label features:', features.length);
-					}, 3000);
+					console.log('Layer added: subsetRivers-labels (using dissolved source)');
 				}
 			} catch (err) {
 				console.error('Error adding rivers layer:', err);
