@@ -140,13 +140,17 @@ import Layout from '../layouts/Layout.astro';
 <script is:inline src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
 
 <style>
-	/* Hero Section */
+	/* Hero Section - Full Width */
 	.hero {
 		position: relative;
 		min-height: 90vh;
 		display: flex;
 		align-items: center;
 		overflow: hidden;
+		margin-left: calc(-50vw + 50%);
+		margin-right: calc(-50vw + 50%);
+		width: 100vw;
+		padding: 0 max(2rem, calc((100vw - 1200px) / 2 + 2rem));
 	}
 
 	.hero-map {
@@ -166,6 +170,7 @@ import Layout from '../layouts/Layout.astro';
 		position: relative;
 		z-index: 2;
 		max-width: 700px;
+		padding: 4rem 0;
 	}
 
 	.hero-label {
@@ -455,10 +460,11 @@ import Layout from '../layouts/Layout.astro';
 	@media (max-width: 768px) {
 		.hero {
 			min-height: 80vh;
+			padding: 0 1.5rem;
 		}
 
 		.hero-content {
-			padding: 0 1rem;
+			padding: 3rem 0;
 		}
 
 		.stats {
