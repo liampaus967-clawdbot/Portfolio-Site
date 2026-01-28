@@ -2,122 +2,218 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Home">
+<Layout title="Liam | GIS & Mapping">
 	<section class="hero">
+		<div class="hero-map" id="hero-map"></div>
+		<div class="hero-overlay"></div>
 		<div class="hero-content">
-			<h1>Liam</h1>
-			<p class="tagline">Vermont-based. Water-obsessed. Map-addicted.</p>
+			<p class="hero-label">GIS & Mapping Specialist</p>
+			<h1>I build maps that <span class="accent">move</span> people.</h1>
 			<p class="intro">
-				Head of GIS & Mapping at <a href="https://onwater.com" target="_blank">onWater</a>. 
-				I build interactive maps that help people explore waterways, find fish, and paddle new routes.
+				Head of GIS at <a href="https://onwater.com" target="_blank">onWater</a>. 
+				I turn massive geospatial datasets into beautiful, interactive experiences 
+				for millions of anglers and paddlers.
 			</p>
 			<div class="cta-buttons">
-				<a href="/projects" class="btn btn-primary">View My Work</a>
-				<a href="/sandbox" class="btn btn-secondary">Map Sandbox</a>
-			</div>
-		</div>
-		<div class="hero-visual">
-			<div class="map-placeholder">
-				<span>🗺️</span>
+				<a href="/projects" class="btn btn-primary">View Projects</a>
+				<a href="/sandbox" class="btn btn-secondary">🗺️ Map Sandbox</a>
 			</div>
 		</div>
 	</section>
 
-	<section class="skills">
+	<section class="stats">
+		<div class="stat">
+			<span class="stat-number" data-target="500">0</span><span class="stat-suffix">M+</span>
+			<span class="stat-label">Map Views</span>
+		</div>
+		<div class="stat">
+			<span class="stat-number" data-target="50">0</span><span class="stat-suffix">TB</span>
+			<span class="stat-label">Geodata Processed</span>
+		</div>
+		<div class="stat">
+			<span class="stat-number" data-target="12">0</span><span class="stat-suffix">+</span>
+			<span class="stat-label">Custom Map Styles</span>
+		</div>
+		<div class="stat">
+			<span class="stat-number" data-target="3">0</span><span class="stat-suffix">M</span>
+			<span class="stat-label">Users Served</span>
+		</div>
+	</section>
+
+	<section class="expertise">
 		<h2>What I Do</h2>
-		<div class="skill-grid">
-			<div class="skill-card">
-				<div class="skill-icon">📍</div>
+		<p class="section-intro">Specialized in water-focused geospatial work — from data pipelines to production maps.</p>
+		<div class="expertise-grid">
+			<div class="expertise-card">
+				<div class="expertise-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+						<circle cx="12" cy="10" r="3"></circle>
+					</svg>
+				</div>
 				<h3>Interactive Mapping</h3>
-				<p>Building beautiful, performant web maps with Mapbox GL JS and custom vector tiles.</p>
+				<p>Custom Mapbox GL JS applications with vector tiles, 3D terrain, and real-time data layers.</p>
 			</div>
-			<div class="skill-card">
-				<div class="skill-icon">📊</div>
-				<h3>Geospatial Data</h3>
-				<p>Processing massive vector and raster datasets. HRRR weather data, NHDPlus hydrology, and more.</p>
+			<div class="expertise-card">
+				<div class="expertise-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+						<polyline points="14 2 14 8 20 8"></polyline>
+						<line x1="16" y1="13" x2="8" y2="13"></line>
+						<line x1="16" y1="17" x2="8" y2="17"></line>
+						<polyline points="10 9 9 9 8 9"></polyline>
+					</svg>
+				</div>
+				<h3>Data Engineering</h3>
+				<p>Processing terabytes of raster and vector data — HRRR weather, NHD hydrology, bathymetry, and more.</p>
 			</div>
-			<div class="skill-card">
-				<div class="skill-icon">🌊</div>
-				<h3>Water Tech</h3>
-				<p>Specialized in waterway data — rivers, lakes, fishing spots, paddle routes, and bathymetry.</p>
+			<div class="expertise-card">
+				<div class="expertise-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+					</svg>
+				</div>
+				<h3>Hydrology & Water</h3>
+				<p>Deep expertise in waterway data — rivers, lakes, watersheds, flowlines, and aquatic ecosystems.</p>
 			</div>
-			<div class="skill-card">
-				<div class="skill-icon">⚡</div>
-				<h3>R&D</h3>
-				<p>Always exploring new visualization techniques and data sources to push maps forward.</p>
+			<div class="expertise-card">
+				<div class="expertise-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+						<polyline points="2 17 12 22 22 17"></polyline>
+						<polyline points="2 12 12 17 22 12"></polyline>
+					</svg>
+				</div>
+				<h3>Tile Pipelines</h3>
+				<p>Building scalable vector tile infrastructure with tippecanoe, PMTiles, and cloud delivery.</p>
 			</div>
 		</div>
 	</section>
 
 	<section class="featured">
-		<h2>Featured Projects</h2>
-		<p class="section-intro">A few things I've built recently.</p>
-		<div class="project-preview">
-			<div class="project-card">
-				<div class="project-image">🎣</div>
-				<div class="project-info">
+		<h2>Featured Work</h2>
+		<p class="section-intro">Recent projects I'm proud of.</p>
+		<div class="featured-grid">
+			<a href="/projects" class="featured-card featured-large">
+				<div class="featured-image" id="featured-map-1"></div>
+				<div class="featured-overlay"></div>
+				<div class="featured-content">
+					<span class="featured-tag">Flagship Product</span>
 					<h3>onWater Map Platform</h3>
-					<p>Interactive fishing maps serving millions of anglers across North America.</p>
-					<a href="/projects" class="project-link">Learn more →</a>
+					<p>Interactive fishing maps serving millions of anglers with real-time conditions, spots, and navigation.</p>
 				</div>
-			</div>
-			<div class="project-card">
-				<div class="project-image">🛶</div>
-				<div class="project-info">
+			</a>
+			<a href="/projects" class="featured-card">
+				<div class="featured-image" style="background: linear-gradient(135deg, #134e4a 0%, #0f172a 100%);"></div>
+				<div class="featured-overlay"></div>
+				<div class="featured-content">
+					<span class="featured-tag">Mobile App</span>
 					<h3>Paddleways</h3>
-					<p>Mapping paddle routes for kayakers and canoeists with real-time conditions.</p>
-					<a href="/projects" class="project-link">Learn more →</a>
+					<p>Route planning for kayakers with water levels and access points.</p>
 				</div>
-			</div>
+			</a>
+			<a href="/projects" class="featured-card">
+				<div class="featured-image" style="background: linear-gradient(135deg, #4c1d95 0%, #0f172a 100%);"></div>
+				<div class="featured-overlay"></div>
+				<div class="featured-content">
+					<span class="featured-tag">Real-time Data</span>
+					<h3>HRRR Weather Viz</h3>
+					<p>Animated weather layers from NOAA's rapid refresh system.</p>
+				</div>
+			</a>
+		</div>
+		<div class="featured-cta">
+			<a href="/projects" class="btn btn-outline">View All Projects →</a>
+		</div>
+	</section>
+
+	<section class="cta-section">
+		<div class="cta-content">
+			<h2>Let's build something</h2>
+			<p>Interested in working together or just want to talk maps?</p>
+			<a href="/about" class="btn btn-primary">Get in Touch</a>
 		</div>
 	</section>
 </Layout>
 
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+<script is:inline src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+
 <style>
+	/* Hero Section */
 	.hero {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 4rem;
+		position: relative;
+		min-height: 90vh;
+		display: flex;
 		align-items: center;
-		min-height: 70vh;
-		padding: 2rem 0;
+		overflow: hidden;
 	}
 
-	.hero-content h1 {
-		font-size: 4rem;
-		font-weight: 700;
+	.hero-map {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+	}
+
+	.hero-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(15, 23, 42, 0.75) 100%);
+		z-index: 1;
+	}
+
+	.hero-content {
+		position: relative;
+		z-index: 2;
+		max-width: 700px;
+	}
+
+	.hero-label {
+		text-transform: uppercase;
+		letter-spacing: 0.15em;
+		font-size: 0.85rem;
+		color: var(--accent);
 		margin-bottom: 1rem;
-		background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+		font-weight: 500;
+	}
+
+	.hero h1 {
+		font-size: clamp(2.5rem, 6vw, 4rem);
+		font-weight: 700;
+		line-height: 1.1;
+		margin-bottom: 1.5rem;
+	}
+
+	.hero h1 .accent {
+		background: linear-gradient(135deg, var(--accent) 0%, #60a5fa 100%);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
 	}
 
-	.tagline {
-		font-size: 1.5rem;
-		color: var(--text-muted);
-		margin-bottom: 1.5rem;
-		font-weight: 300;
-	}
-
-	.intro {
-		font-size: 1.1rem;
+	.hero .intro {
+		font-size: 1.15rem;
 		line-height: 1.7;
 		color: var(--text-muted);
 		margin-bottom: 2rem;
+		max-width: 550px;
 	}
 
 	.cta-buttons {
 		display: flex;
 		gap: 1rem;
+		flex-wrap: wrap;
 	}
 
 	.btn {
-		padding: 0.75rem 1.5rem;
+		padding: 0.875rem 1.75rem;
 		border-radius: 8px;
 		font-weight: 500;
 		font-size: 0.95rem;
 		transition: all 0.2s ease;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 
 	.btn-primary {
@@ -128,170 +224,332 @@ import Layout from '../layouts/Layout.astro';
 	.btn-primary:hover {
 		background: var(--accent-hover);
 		color: white;
+		transform: translateY(-2px);
 	}
 
 	.btn-secondary {
-		background: var(--bg-secondary);
+		background: rgba(255, 255, 255, 0.1);
 		color: var(--text);
-		border: 1px solid var(--border);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		backdrop-filter: blur(8px);
 	}
 
 	.btn-secondary:hover {
-		background: var(--border);
+		background: rgba(255, 255, 255, 0.15);
 		color: var(--text);
 	}
 
-	.hero-visual {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
-	.map-placeholder {
-		width: 100%;
-		aspect-ratio: 1;
-		max-width: 400px;
-		background: var(--bg-secondary);
+	.btn-outline {
+		background: transparent;
+		color: var(--text);
 		border: 1px solid var(--border);
-		border-radius: 16px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 6rem;
 	}
 
-	.skills {
-		padding: 4rem 0;
-	}
-
-	.skills h2 {
-		font-size: 2rem;
-		margin-bottom: 2rem;
-	}
-
-	.skill-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-		gap: 1.5rem;
-	}
-
-	.skill-card {
-		background: var(--bg-secondary);
-		border: 1px solid var(--border);
-		border-radius: 12px;
-		padding: 1.5rem;
-		transition: border-color 0.2s ease;
-	}
-
-	.skill-card:hover {
+	.btn-outline:hover {
 		border-color: var(--accent);
+		color: var(--accent);
 	}
 
-	.skill-icon {
-		font-size: 2rem;
-		margin-bottom: 1rem;
+	/* Stats Section */
+	.stats {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 2rem;
+		padding: 4rem 0;
+		border-bottom: 1px solid var(--border);
 	}
 
-	.skill-card h3 {
-		font-size: 1.1rem;
-		margin-bottom: 0.5rem;
+	.stat {
+		text-align: center;
 	}
 
-	.skill-card p {
+	.stat-number {
+		font-size: 3rem;
+		font-weight: 700;
+		color: var(--accent);
+	}
+
+	.stat-suffix {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--accent);
+	}
+
+	.stat-label {
+		display: block;
+		margin-top: 0.5rem;
 		color: var(--text-muted);
 		font-size: 0.9rem;
-		line-height: 1.6;
 	}
 
-	.featured {
-		padding: 4rem 0;
+	/* Expertise Section */
+	.expertise {
+		padding: 5rem 0;
 	}
 
+	.expertise h2,
 	.featured h2 {
-		font-size: 2rem;
+		font-size: 2.25rem;
+		font-weight: 700;
 		margin-bottom: 0.5rem;
 	}
 
 	.section-intro {
 		color: var(--text-muted);
-		margin-bottom: 2rem;
+		font-size: 1.1rem;
+		margin-bottom: 3rem;
 	}
 
-	.project-preview {
+	.expertise-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 		gap: 1.5rem;
 	}
 
-	.project-card {
+	.expertise-card {
 		background: var(--bg-secondary);
 		border: 1px solid var(--border);
-		border-radius: 12px;
-		overflow: hidden;
-		transition: border-color 0.2s ease, transform 0.2s ease;
+		border-radius: 16px;
+		padding: 2rem;
+		transition: all 0.3s ease;
 	}
 
-	.project-card:hover {
+	.expertise-card:hover {
 		border-color: var(--accent);
 		transform: translateY(-4px);
 	}
 
-	.project-image {
-		height: 160px;
-		background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+	.expertise-icon {
+		width: 48px;
+		height: 48px;
+		background: rgba(96, 165, 250, 0.1);
+		border-radius: 12px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 4rem;
+		margin-bottom: 1.25rem;
 	}
 
-	.project-info {
-		padding: 1.5rem;
+	.expertise-icon svg {
+		width: 24px;
+		height: 24px;
+		color: var(--accent);
 	}
 
-	.project-info h3 {
-		margin-bottom: 0.5rem;
+	.expertise-card h3 {
+		font-size: 1.15rem;
+		margin-bottom: 0.75rem;
 	}
 
-	.project-info p {
+	.expertise-card p {
 		color: var(--text-muted);
 		font-size: 0.9rem;
+		line-height: 1.6;
+	}
+
+	/* Featured Section */
+	.featured {
+		padding: 5rem 0;
+		border-top: 1px solid var(--border);
+	}
+
+	.featured-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: auto auto;
+		gap: 1.5rem;
+	}
+
+	.featured-card {
+		position: relative;
+		border-radius: 16px;
+		overflow: hidden;
+		min-height: 280px;
+		display: flex;
+		align-items: flex-end;
+		text-decoration: none;
+		transition: transform 0.3s ease;
+	}
+
+	.featured-card:hover {
+		transform: translateY(-4px);
+	}
+
+	.featured-large {
+		grid-row: span 2;
+		min-height: 580px;
+	}
+
+	.featured-image {
+		position: absolute;
+		inset: 0;
+		background-size: cover;
+		background-position: center;
+	}
+
+	.featured-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.3) 50%, transparent 100%);
+	}
+
+	.featured-content {
+		position: relative;
+		z-index: 2;
+		padding: 2rem;
+	}
+
+	.featured-tag {
+		display: inline-block;
+		background: var(--accent);
+		color: white;
+		font-size: 0.7rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		padding: 0.35rem 0.75rem;
+		border-radius: 4px;
 		margin-bottom: 1rem;
+	}
+
+	.featured-content h3 {
+		font-size: 1.5rem;
+		margin-bottom: 0.5rem;
+		color: white;
+	}
+
+	.featured-large .featured-content h3 {
+		font-size: 2rem;
+	}
+
+	.featured-content p {
+		color: rgba(255, 255, 255, 0.8);
+		font-size: 0.95rem;
 		line-height: 1.5;
 	}
 
-	.project-link {
-		font-size: 0.9rem;
-		font-weight: 500;
+	.featured-cta {
+		text-align: center;
+		margin-top: 3rem;
 	}
 
+	/* CTA Section */
+	.cta-section {
+		padding: 6rem 0;
+		text-align: center;
+		border-top: 1px solid var(--border);
+	}
+
+	.cta-content h2 {
+		font-size: 2.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.cta-content p {
+		color: var(--text-muted);
+		font-size: 1.1rem;
+		margin-bottom: 2rem;
+	}
+
+	/* Responsive */
 	@media (max-width: 768px) {
 		.hero {
+			min-height: 80vh;
+		}
+
+		.hero-content {
+			padding: 0 1rem;
+		}
+
+		.stats {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.5rem;
+		}
+
+		.stat-number {
+			font-size: 2rem;
+		}
+
+		.featured-grid {
 			grid-template-columns: 1fr;
-			gap: 2rem;
-			min-height: auto;
-			padding: 1rem 0;
 		}
 
-		.hero-content h1 {
-			font-size: 2.5rem;
+		.featured-large {
+			grid-row: span 1;
+			min-height: 320px;
 		}
 
-		.tagline {
-			font-size: 1.2rem;
-		}
-
-		.hero-visual {
-			order: -1;
-		}
-
-		.map-placeholder {
-			max-width: 200px;
-			font-size: 4rem;
-		}
-
-		.cta-buttons {
-			flex-direction: column;
+		.cta-content h2 {
+			font-size: 1.75rem;
 		}
 	}
 </style>
+
+<script is:inline>
+	const MAPBOX_TOKEN = 'pk.eyJ1Ijoib253YXRlcmxsYyIsImEiOiJja3poaWFjbnc0MjVrMm9tem5kenVqd3h3In0.2yMEyumU5erOQ6B5GadT5w';
+
+	document.addEventListener('DOMContentLoaded', () => {
+		// Initialize hero map
+		if (typeof mapboxgl !== 'undefined' && MAPBOX_TOKEN) {
+			mapboxgl.accessToken = MAPBOX_TOKEN;
+
+			const heroMap = new mapboxgl.Map({
+				container: 'hero-map',
+				style: '/styles/fishing-outdoor-light.json',
+				center: [-72.5, 44.2],
+				zoom: 7,
+				pitch: 45,
+				bearing: -10,
+				interactive: false,
+				attributionControl: false
+			});
+
+			// Slow pan animation
+			let bearing = -10;
+			function rotateCamera() {
+				bearing += 0.01;
+				heroMap.setBearing(bearing);
+				requestAnimationFrame(rotateCamera);
+			}
+			heroMap.on('load', rotateCamera);
+
+			// Featured project map
+			const featuredMap = new mapboxgl.Map({
+				container: 'featured-map-1',
+				style: '/styles/fishing-outdoor.json',
+				center: [-93.2, 45.0],
+				zoom: 8,
+				interactive: false,
+				attributionControl: false
+			});
+		}
+
+		// Animate stats on scroll
+		const statNumbers = document.querySelectorAll('.stat-number');
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					const target = parseInt(entry.target.dataset.target);
+					animateNumber(entry.target, target);
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.5 });
+
+		statNumbers.forEach(num => observer.observe(num));
+
+		function animateNumber(el, target) {
+			let current = 0;
+			const increment = target / 50;
+			const timer = setInterval(() => {
+				current += increment;
+				if (current >= target) {
+					el.textContent = target;
+					clearInterval(timer);
+				} else {
+					el.textContent = Math.floor(current);
+				}
+			}, 30);
+		}
+	});
+</script>
