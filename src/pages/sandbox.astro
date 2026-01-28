@@ -32,11 +32,8 @@ import Layout from '../layouts/Layout.astro';
 		<h2>About This Sandbox</h2>
 		<p>
 			This is where I test new Mapbox GL JS features, experiment with custom layers, 
-			and prototype visualizations before bringing them to production apps.
-		</p>
-		<p>
-			<strong>Note:</strong> You'll need a Mapbox access token to see the map. 
-			Add yours to the code or check back when I've added a demo token.
+			and prototype visualizations before bringing them to production apps. 
+			Try switching styles and flying to different locations!
 		</p>
 	</section>
 </Layout>
@@ -172,8 +169,8 @@ import Layout from '../layouts/Layout.astro';
 <script is:inline src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
 
 <script is:inline>
-	// Replace with your Mapbox access token
-	const MAPBOX_TOKEN = 'YOUR_MAPBOX_ACCESS_TOKEN';
+	// Mapbox access token
+	const MAPBOX_TOKEN = 'pk.eyJ1Ijoib253YXRlcmxsYyIsImEiOiJja3poaWFjbnc0MjVrMm9tem5kenVqd3h3In0.2yMEyumU5erOQ6B5GadT5w';
 	
 	document.addEventListener('DOMContentLoaded', () => {
 		if (MAPBOX_TOKEN === 'YOUR_MAPBOX_ACCESS_TOKEN') {
