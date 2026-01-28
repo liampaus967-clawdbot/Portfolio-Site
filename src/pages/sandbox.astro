@@ -233,9 +233,8 @@ import Layout from '../layouts/Layout.astro';
 					console.log('Layer added: subsetRivers-layer');
 				}
 
-				// Add river labels
+				// Add river labels using point placement
 				if (!map.getLayer('subsetRivers-labels')) {
-					// Get available fonts from the style
 					const style = map.getStyle();
 					console.log('Style glyphs:', style.glyphs);
 					
@@ -245,25 +244,24 @@ import Layout from '../layouts/Layout.astro';
 						source: 'subsetRivers',
 						'source-layer': 'subsetRivers-d1irb0',
 						layout: {
-							'symbol-placement': 'line',
+							'symbol-placement': 'point',
 							'text-field': '{name}',
 							'text-font': ['DIN Pro Italic', 'Arial Unicode MS Regular'],
-							'text-size': 12,
-							'text-letter-spacing': 0.08,
-							'text-max-angle': 45,
-							'symbol-spacing': 250,
-							'text-rotation-alignment': 'map',
-							'text-pitch-alignment': 'viewport'
+							'text-size': 11,
+							'text-letter-spacing': 0.05,
+							'text-anchor': 'center',
+							'text-allow-overlap': false,
+							'text-ignore-placement': false,
+							'text-optional': true
 						},
 						paint: {
 							'text-color': '#ffffff',
-							'text-halo-color': '#0a2540',
+							'text-halo-color': 'rgba(10, 40, 80, 0.95)',
 							'text-halo-width': 1.5
 						}
 					});
 					console.log('Layer added: subsetRivers-labels');
 					
-					// Debug: check if layer has features
 					setTimeout(() => {
 						const features = map.queryRenderedFeatures({ layers: ['subsetRivers-labels'] });
 						console.log('Rendered label features:', features.length);
