@@ -13,10 +13,10 @@ import Layout from '../layouts/Layout.astro';
 		<div class="map-controls">
 			<h3>Map Style</h3>
 			<div class="style-buttons">
-				<button class="style-btn active" data-style="mapbox://styles/mapbox/dark-v11">Dark</button>
+				<button class="style-btn active" data-style="/styles/fishing-outdoor.json">🎣 Fishing</button>
+				<button class="style-btn" data-style="mapbox://styles/mapbox/dark-v11">Dark</button>
 				<button class="style-btn" data-style="mapbox://styles/mapbox/satellite-streets-v12">Satellite</button>
 				<button class="style-btn" data-style="mapbox://styles/mapbox/outdoors-v12">Outdoors</button>
-				<button class="style-btn" data-style="mapbox://styles/mapbox/light-v11">Light</button>
 			</div>
 			<h3>Quick Locations</h3>
 			<div class="location-buttons">
@@ -188,7 +188,7 @@ import Layout from '../layouts/Layout.astro';
 
 		const map = new mapboxgl.Map({
 			container: 'map',
-			style: 'mapbox://styles/mapbox/dark-v11',
+			style: '/styles/fishing-outdoor.json',
 			center: [-72.5754, 44.2601], // Vermont
 			zoom: 8,
 			pitch: 45
