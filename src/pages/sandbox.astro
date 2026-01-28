@@ -209,29 +209,40 @@ import Layout from '../layouts/Layout.astro';
 
 		// Add custom rivers layer
 		function addRiversLayer() {
-			if (!map.getSource('subsetRivers')) {
-				map.addSource('subsetRivers', {
-					type: 'vector',
-					url: 'mapbox://lman967.6hxqcksb'
-				});
-			}
-			if (!map.getLayer('subsetRivers-layer')) {
-				map.addLayer({
-					id: 'subsetRivers-layer',
-					type: 'line',
-					source: 'subsetRivers',
-					'source-layer': 'subsetRivers-d1irb0',
-					paint: {
-						'line-color': '#60a5fa',
-						'line-width': 2,
-						'line-opacity': 0.9
-					}
-				});
+			console.log('Adding rivers layer...');
+			try {
+				if (!map.getSource('subsetRivers')) {
+					map.addSource('subsetRivers', {
+						type: 'vector',
+						url: 'mapbox://lman967.6hxqcksb'
+					});
+					console.log('Source added: subsetRivers');
+				}
+				if (!map.getLayer('subsetRivers-layer')) {
+					map.addLayer({
+						id: 'subsetRivers-layer',
+						type: 'line',
+						source: 'subsetRivers',
+						'source-layer': 'subsetRivers-d1irb0',
+						paint: {
+							'line-color': '#00ffff',
+							'line-width': 3,
+							'line-opacity': 1
+						}
+					});
+					console.log('Layer added: subsetRivers-layer');
+				}
+			} catch (err) {
+				console.error('Error adding rivers layer:', err);
 			}
 		}
 
 		map.on('load', addRiversLayer);
 		map.on('style.load', addRiversLayer);
+		
+		map.on('error', (e) => {
+			console.error('Map error:', e.error);
+		});
 
 		// Style buttons
 		document.querySelectorAll('.style-btn').forEach(btn => {
