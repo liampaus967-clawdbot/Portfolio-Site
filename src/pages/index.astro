@@ -510,14 +510,34 @@ import Layout from '../layouts/Layout.astro';
 				attributionControl: false
 			});
 
-			// Slow pan animation
-			let bearing = -10;
-			function rotateCamera() {
-				bearing += 0.01;
-				heroMap.setBearing(bearing);
-				requestAnimationFrame(rotateCamera);
-			}
-			heroMap.on('load', rotateCamera);
+			heroMap.on('load', () => {
+				// Add custom rivers tileset
+				heroMap.addSource('subsetRivers', {
+					type: 'vector',
+					url: 'mapbox://lman967.6hxqcksb'
+				});
+
+				heroMap.addLayer({
+					id: 'subsetRivers-layer',
+					type: 'line',
+					source: 'subsetRivers',
+					'source-layer': 'subsetRivers-d1irb0',
+					paint: {
+						'line-color': '#60a5fa',
+						'line-width': 2,
+						'line-opacity': 0.8
+					}
+				});
+
+				// Slow pan animation
+				let bearing = -10;
+				function rotateCamera() {
+					bearing += 0.01;
+					heroMap.setBearing(bearing);
+					requestAnimationFrame(rotateCamera);
+				}
+				rotateCamera();
+			});
 
 			// Featured project map
 			const featuredMap = new mapboxgl.Map({
