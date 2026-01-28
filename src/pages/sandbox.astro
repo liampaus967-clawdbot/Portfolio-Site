@@ -18,6 +18,10 @@ import Layout from '../layouts/Layout.astro';
 				<button class="style-btn" data-style="mapbox://styles/mapbox/satellite-streets-v12">🛰️ Satellite</button>
 				<button class="style-btn" data-style="mapbox://styles/mapbox/outdoors-v12">🏔️ Outdoors</button>
 			</div>
+			<h3>Layers</h3>
+			<div class="layer-buttons">
+				<button class="layer-btn active" data-layer="subsetRivers-layer">🌊 Rivers</button>
+			</div>
 			<h3>Quick Locations</h3>
 			<div class="location-buttons">
 				<button class="loc-btn" data-lng="-72.5754" data-lat="44.2601" data-zoom="8">Vermont</button>
@@ -88,14 +92,16 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.style-buttons,
-	.location-buttons {
+	.location-buttons,
+	.layer-buttons {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
 	}
 
 	.style-btn,
-	.loc-btn {
+	.loc-btn,
+	.layer-btn {
 		background: var(--bg);
 		border: 1px solid var(--border);
 		color: var(--text);
@@ -108,12 +114,14 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.style-btn:hover,
-	.loc-btn:hover {
+	.loc-btn:hover,
+	.layer-btn:hover {
 		border-color: var(--accent);
 		background: var(--border);
 	}
 
-	.style-btn.active {
+	.style-btn.active,
+	.layer-btn.active {
 		background: var(--accent);
 		border-color: var(--accent);
 	}
@@ -152,13 +160,15 @@ import Layout from '../layouts/Layout.astro';
 		}
 
 		.style-buttons,
-		.location-buttons {
+		.location-buttons,
+		.layer-buttons {
 			flex-direction: row;
 			flex-wrap: wrap;
 		}
 
 		.style-btn,
-		.loc-btn {
+		.loc-btn,
+		.layer-btn {
 			flex: 1 1 auto;
 			text-align: center;
 		}
@@ -197,6 +207,32 @@ import Layout from '../layouts/Layout.astro';
 		map.addControl(new mapboxgl.NavigationControl());
 		map.addControl(new mapboxgl.FullscreenControl());
 
+		// Add custom rivers layer
+		function addRiversLayer() {
+			if (!map.getSource('subsetRivers')) {
+				map.addSource('subsetRivers', {
+					type: 'vector',
+					url: 'mapbox://lman967.6hxqcksb'
+				});
+			}
+			if (!map.getLayer('subsetRivers-layer')) {
+				map.addLayer({
+					id: 'subsetRivers-layer',
+					type: 'line',
+					source: 'subsetRivers',
+					'source-layer': 'subsetRivers-d1irb0',
+					paint: {
+						'line-color': '#60a5fa',
+						'line-width': 2,
+						'line-opacity': 0.9
+					}
+				});
+			}
+		}
+
+		map.on('load', addRiversLayer);
+		map.on('style.load', addRiversLayer);
+
 		// Style buttons
 		document.querySelectorAll('.style-btn').forEach(btn => {
 			btn.addEventListener('click', () => {
@@ -214,6 +250,18 @@ import Layout from '../layouts/Layout.astro';
 					zoom: parseFloat(btn.dataset.zoom),
 					duration: 2000
 				});
+			});
+		});
+
+		// Layer toggle buttons
+		document.querySelectorAll('.layer-btn').forEach(btn => {
+			btn.addEventListener('click', () => {
+				const layerId = btn.dataset.layer;
+				btn.classList.toggle('active');
+				const visibility = btn.classList.contains('active') ? 'visible' : 'none';
+				if (map.getLayer(layerId)) {
+					map.setLayoutProperty(layerId, 'visibility', visibility);
+				}
 			});
 		});
 	});
