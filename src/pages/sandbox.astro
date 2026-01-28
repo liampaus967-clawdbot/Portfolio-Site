@@ -225,12 +225,42 @@ import Layout from '../layouts/Layout.astro';
 						source: 'subsetRivers',
 						'source-layer': 'subsetRivers-d1irb0',
 						paint: {
-							'line-color': '#00ffff',
-							'line-width': 3,
-							'line-opacity': 1
+							'line-color': '#60a5fa',
+							'line-width': 2,
+							'line-opacity': 0.9
 						}
 					});
 					console.log('Layer added: subsetRivers-layer');
+				}
+
+				// Add river labels
+				if (!map.getLayer('subsetRivers-labels')) {
+					map.addLayer({
+						id: 'subsetRivers-labels',
+						type: 'symbol',
+						source: 'subsetRivers',
+						'source-layer': 'subsetRivers-d1irb0',
+						layout: {
+							'symbol-placement': 'line',
+							'text-field': ['coalesce', ['get', 'name'], ['get', 'gnis_name'], ['get', 'GNIS_NAME'], ''],
+							'text-font': ['DIN Pro Italic', 'Arial Unicode MS Regular'],
+							'text-size': ['interpolate', ['linear'], ['zoom'], 8, 10, 12, 12, 16, 14],
+							'text-max-angle': 30,
+							'text-letter-spacing': 0.05,
+							'symbol-spacing': 500,
+							'text-keep-upright': true,
+							'text-allow-overlap': false,
+							'text-ignore-placement': false,
+							'text-optional': true
+						},
+						paint: {
+							'text-color': '#93c5fd',
+							'text-halo-color': 'rgba(10, 10, 10, 0.9)',
+							'text-halo-width': 1.5,
+							'text-halo-blur': 0.5
+						}
+					});
+					console.log('Layer added: subsetRivers-labels');
 				}
 			} catch (err) {
 				console.error('Error adding rivers layer:', err);
@@ -270,8 +300,14 @@ import Layout from '../layouts/Layout.astro';
 				const layerId = btn.dataset.layer;
 				btn.classList.toggle('active');
 				const visibility = btn.classList.contains('active') ? 'visible' : 'none';
+				// Toggle main layer
 				if (map.getLayer(layerId)) {
 					map.setLayoutProperty(layerId, 'visibility', visibility);
+				}
+				// Toggle associated labels layer
+				const labelsLayerId = layerId.replace('-layer', '-labels');
+				if (map.getLayer(labelsLayerId)) {
+					map.setLayoutProperty(labelsLayerId, 'visibility', visibility);
 				}
 			});
 		});
