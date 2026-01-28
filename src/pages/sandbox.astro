@@ -240,9 +240,10 @@ import Layout from '../layouts/Layout.astro';
 						type: 'symbol',
 						source: 'subsetRivers',
 						'source-layer': 'subsetRivers-d1irb0',
+						filter: ['has', 'name'],
 						layout: {
 							'symbol-placement': 'line',
-							'text-field': ['coalesce', ['get', 'name'], ['get', 'gnis_name'], ['get', 'GNIS_NAME'], ''],
+							'text-field': ['get', 'name'],
 							'text-font': ['DIN Pro Italic', 'Arial Unicode MS Regular'],
 							'text-size': ['interpolate', ['linear'], ['zoom'], 8, 10, 12, 12, 16, 14],
 							'text-max-angle': 30,
