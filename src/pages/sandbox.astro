@@ -245,23 +245,29 @@ import Layout from '../layouts/Layout.astro';
 						source: 'subsetRivers',
 						'source-layer': 'subsetRivers-d1irb0',
 						layout: {
-							'symbol-placement': 'line-center',
-							'text-field': ['get', 'name'],
+							'symbol-placement': 'line',
+							'text-field': '{name}',
 							'text-font': ['DIN Pro Italic', 'Arial Unicode MS Regular'],
-							'text-size': 13,
-							'text-letter-spacing': 0.05,
-							'text-max-angle': 30,
-							'symbol-spacing': 300,
-							'text-allow-overlap': false,
-							'text-ignore-placement': false
+							'text-size': 12,
+							'text-letter-spacing': 0.08,
+							'text-max-angle': 45,
+							'symbol-spacing': 250,
+							'text-rotation-alignment': 'map',
+							'text-pitch-alignment': 'viewport'
 						},
 						paint: {
 							'text-color': '#ffffff',
-							'text-halo-color': 'rgba(0, 40, 80, 0.9)',
-							'text-halo-width': 2
+							'text-halo-color': '#0a2540',
+							'text-halo-width': 1.5
 						}
 					});
 					console.log('Layer added: subsetRivers-labels');
+					
+					// Debug: check if layer has features
+					setTimeout(() => {
+						const features = map.queryRenderedFeatures({ layers: ['subsetRivers-labels'] });
+						console.log('Rendered label features:', features.length);
+					}, 3000);
 				}
 			} catch (err) {
 				console.error('Error adding rivers layer:', err);
