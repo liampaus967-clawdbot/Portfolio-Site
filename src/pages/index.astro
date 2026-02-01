@@ -95,7 +95,7 @@ import Layout from '../layouts/Layout.astro';
 		<p class="section-intro">Interactive mapping applications I've built.</p>
 		<div class="featured-grid">
 			<a href="https://hrrr-weather-viz.vercel.app/" target="_blank" class="featured-card featured-large">
-				<div class="featured-image" style="background: linear-gradient(135deg, #4c1d95 0%, #1e1b4b 100%);"></div>
+				<div class="featured-image" style="background-image: url('/images/projects/hrrr-weather.png');"></div>
 				<div class="featured-overlay"></div>
 				<div class="featured-content">
 					<span class="featured-tag">Weather</span>
@@ -104,7 +104,7 @@ import Layout from '../layouts/Layout.astro';
 				</div>
 			</a>
 			<a href="https://nhdplus-explorer.vercel.app/" target="_blank" class="featured-card">
-				<div class="featured-image" style="background: linear-gradient(135deg, #0369a1 0%, #0c4a6e 100%);"></div>
+				<div class="featured-image" style="background-image: url('/images/projects/float-estimator.png');"></div>
 				<div class="featured-overlay"></div>
 				<div class="featured-content">
 					<span class="featured-tag">Hydrology</span>
@@ -112,13 +112,13 @@ import Layout from '../layouts/Layout.astro';
 					<p>River routing with float times and real-time NWM velocities.</p>
 				</div>
 			</a>
-			<a href="/projects" class="featured-card">
-				<div class="featured-image" style="background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%);"></div>
+			<a href="https://stream-monitor-eta.vercel.app/" target="_blank" class="featured-card">
+				<div class="featured-image" style="background-image: url('/images/projects/stream-monitor.png');"></div>
 				<div class="featured-overlay"></div>
 				<div class="featured-content">
-					<span class="featured-tag">Research</span>
-					<h3>Stream Temp Modeling</h3>
-					<p>ML-powered stream temperature predictions for fisheries.</p>
+					<span class="featured-tag">Real-time Data</span>
+					<h3>USGS Stream Monitor</h3>
+					<p>Live stream gauge dashboard with flow status, trends, and water temperature.</p>
 				</div>
 			</a>
 		</div>
@@ -391,6 +391,11 @@ import Layout from '../layouts/Layout.astro';
 		inset: 0;
 		background-size: cover;
 		background-position: center;
+		transition: transform 0.5s ease;
+	}
+
+	.featured-card:hover .featured-image {
+		transform: scale(1.05);
 	}
 
 	.featured-overlay {
