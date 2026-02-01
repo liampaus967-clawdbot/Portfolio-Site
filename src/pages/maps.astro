@@ -1,0 +1,230 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const maps = [
+	{
+		title: "HRRR Weather Visualization",
+		description: "Real-time HRRR weather data visualization with animated wind particles, temperature overlays, precipitation, and cloud cover. Features forecast animation and multiple weather variables.",
+		tags: ["Mapbox GL JS", "HRRR", "NOAA", "WebGL", "React"],
+		emoji: "🌦️",
+		gradient: "linear-gradient(135deg, #4c1d95 0%, #1e1b4b 100%)",
+		link: "https://hrrr-weather-viz.vercel.app/",
+		status: "Live"
+	},
+	{
+		title: "Float Estimator",
+		description: "Interactive river routing tool for planning float trips. Calculate float times, view elevation profiles, and get real-time conditions using NHDPlus data and the National Water Model.",
+		tags: ["NHDPlus", "PostGIS", "Mapbox GL JS", "National Water Model"],
+		emoji: "🛶",
+		gradient: "linear-gradient(135deg, #0369a1 0%, #0c4a6e 100%)",
+		link: "https://nhdplus-explorer.vercel.app/",
+		status: "Live"
+	}
+];
+
+const statusColors: Record<string, string> = {
+	"Live": "#10b981",
+	"Beta": "#3b82f6",
+	"Coming Soon": "#f59e0b"
+};
+---
+
+<Layout title="Maps">
+	<section class="page-header">
+		<h1>Interactive Maps</h1>
+		<p>Web-based mapping applications for weather, hydrology, and outdoor recreation.</p>
+	</section>
+
+	<section class="maps-grid">
+		{maps.map((map) => (
+			<a href={map.link} target="_blank" rel="noopener noreferrer" class="map-card">
+				<div class="map-preview" style={`background: ${map.gradient}`}>
+					<span class="map-emoji">{map.emoji}</span>
+					{map.status && (
+						<span class="map-status" style={`background: ${statusColors[map.status]}`}>
+							{map.status}
+						</span>
+					)}
+				</div>
+				<div class="map-content">
+					<h2>{map.title}</h2>
+					<p>{map.description}</p>
+					<div class="tags">
+						{map.tags.map((tag) => (
+							<span class="tag">{tag}</span>
+						))}
+					</div>
+					<div class="launch-hint">
+						<span>Launch App</span>
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M7 17L17 7M17 7H7M17 7V17"/>
+						</svg>
+					</div>
+				</div>
+			</a>
+		))}
+	</section>
+
+	<section class="maps-info">
+		<h2>About These Maps</h2>
+		<p>
+			These interactive mapping applications are built with modern web technologies including 
+			Mapbox GL JS, React, and PostGIS. They leverage real-time data from NOAA, USGS, and 
+			the National Water Model to provide accurate, up-to-date information for outdoor enthusiasts.
+		</p>
+	</section>
+</Layout>
+
+<style>
+	.page-header {
+		padding: 2rem 0 3rem;
+	}
+
+	.page-header h1 {
+		font-size: 3rem;
+		font-weight: 700;
+		margin-bottom: 0.5rem;
+	}
+
+	.page-header p {
+		color: var(--text-muted);
+		font-size: 1.1rem;
+	}
+
+	.maps-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+		gap: 2rem;
+		padding-bottom: 4rem;
+	}
+
+	.map-card {
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		border-radius: 20px;
+		overflow: hidden;
+		transition: all 0.3s ease;
+		text-decoration: none;
+		display: block;
+	}
+
+	.map-card:hover {
+		border-color: var(--accent);
+		transform: translateY(-6px);
+		box-shadow: 0 20px 40px -15px rgba(0, 180, 216, 0.2);
+	}
+
+	.map-preview {
+		height: 200px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+	}
+
+	.map-emoji {
+		font-size: 5rem;
+	}
+
+	.map-status {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		padding: 0.35rem 1rem;
+		border-radius: 9999px;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: white;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.map-content {
+		padding: 1.75rem;
+	}
+
+	.map-content h2 {
+		font-size: 1.5rem;
+		margin-bottom: 0.75rem;
+		color: var(--text);
+	}
+
+	.map-content p {
+		color: var(--text-muted);
+		font-size: 0.95rem;
+		line-height: 1.7;
+		margin-bottom: 1.25rem;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-bottom: 1.25rem;
+	}
+
+	.tag {
+		background: var(--bg);
+		border: 1px solid var(--border);
+		padding: 0.3rem 0.85rem;
+		border-radius: 9999px;
+		font-size: 0.75rem;
+		color: var(--text-muted);
+	}
+
+	.launch-hint {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--accent);
+		font-size: 0.9rem;
+		font-weight: 500;
+		opacity: 0;
+		transform: translateX(-10px);
+		transition: all 0.3s ease;
+	}
+
+	.launch-hint svg {
+		width: 16px;
+		height: 16px;
+	}
+
+	.map-card:hover .launch-hint {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	.maps-info {
+		padding: 3rem 0;
+		border-top: 1px solid var(--border);
+	}
+
+	.maps-info h2 {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.maps-info p {
+		color: var(--text-muted);
+		line-height: 1.8;
+		max-width: 700px;
+	}
+
+	@media (max-width: 640px) {
+		.page-header h1 {
+			font-size: 2rem;
+		}
+
+		.maps-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.map-preview {
+			height: 160px;
+		}
+
+		.map-emoji {
+			font-size: 4rem;
+		}
+	}
+</style>

@@ -1,79 +1,333 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const projects = [
+	{
+		title: "Stream Temperature Modeling",
+		description: "Research into predicting stream temperatures using NHDPlus attributes, HRRR weather data, and machine learning. Applications for fisheries management, species habitat prediction, and climate impact assessment.",
+		tags: ["Machine Learning", "Python", "NHDPlus", "HRRR", "Climate"],
+		emoji: "🌡️",
+		gradient: "linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%)",
+		status: "Research",
+		github: "https://github.com/liampaus967-clawdbot"
+	},
+	{
+		title: "CNC Topo Maps",
+		description: "Exploring CNC machining for physical 3D topographic maps. Combining DEM elevation data with hydrography for laser-cut or routed wooden watershed art pieces.",
+		tags: ["DEM", "CNC", "QGIS", "Physical Maps", "Art"],
+		emoji: "🏔️",
+		gradient: "linear-gradient(135deg, #65a30d 0%, #365314 100%)",
+		status: "Concept"
+	},
+	{
+		title: "River Router Engine",
+		description: "National-scale river routing API using Dijkstra's algorithm on NHDPlus flowline data. Powers float time estimation for paddling applications with real-time NWM velocity data.",
+		tags: ["Python", "PostGIS", "Graph Algorithms", "National Water Model"],
+		emoji: "🗺️",
+		gradient: "linear-gradient(135deg, #0891b2 0%, #164e63 100%)",
+		status: "In Development",
+		github: "https://github.com/liampaus967-clawdbot/river-router"
+	},
+	{
+		title: "Bathymetry Visualization",
+		description: "Depth visualization experiments for lakes and reservoirs. Processing sonar data and integrating with topographic models for seamless land-to-water terrain transitions.",
+		tags: ["Bathymetry", "3D Terrain", "Mapbox", "Raster Processing"],
+		emoji: "🌊",
+		gradient: "linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)",
+		status: "Prototype"
+	},
+	{
+		title: "USGS Gauge Dashboard",
+		description: "Real-time dashboard displaying USGS stream gauge data with historical comparisons, flood stage alerts, and trend analysis for recreational planning.",
+		tags: ["USGS", "Real-time Data", "Dashboard", "React"],
+		emoji: "📊",
+		gradient: "linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%)",
+		status: "Planned"
+	},
+	{
+		title: "Watershed Regulations Lookup",
+		description: "Tool for looking up fishing regulations by watershed. Combines state regulation databases with NHDPlus watershed boundaries for location-based rule lookup.",
+		tags: ["Regulations", "NHDPlus", "Geospatial", "Database"],
+		emoji: "📋",
+		gradient: "linear-gradient(135deg, #059669 0%, #064e3b 100%)",
+		status: "Idea"
+	}
+];
+
+const statusColors: Record<string, string> = {
+	"Live": "#10b981",
+	"In Development": "#3b82f6",
+	"Research": "#f59e0b",
+	"Prototype": "#8b5cf6",
+	"Concept": "#6b7280",
+	"Planned": "#06b6d4",
+	"Idea": "#64748b"
+};
+
+const statusDescriptions: Record<string, string> = {
+	"Live": "Deployed and active",
+	"In Development": "Actively being built",
+	"Research": "Exploring feasibility",
+	"Prototype": "Early working version",
+	"Concept": "Design phase",
+	"Planned": "On the roadmap",
+	"Idea": "Future consideration"
+};
 ---
 
 <Layout title="Projects">
-	<section class="redirect-page">
-		<h1>Projects have moved!</h1>
-		<p>I've reorganized my portfolio into two sections:</p>
-		<div class="redirect-links">
-			<a href="/work" class="redirect-link">
-				<span class="emoji">💼</span>
-				<span class="label">Work</span>
-				<span class="desc">Professional projects at onWater</span>
-			</a>
-			<a href="/research" class="redirect-link">
-				<span class="emoji">🔬</span>
-				<span class="label">Research</span>
-				<span class="desc">Personal projects & experiments</span>
-			</a>
-		</div>
+	<section class="page-header">
+		<h1>Projects</h1>
+		<p>Research, experiments, and side projects in GIS, hydrology, and outdoor tech.</p>
+	</section>
+
+	<section class="status-legend">
+		<span class="legend-label">Status:</span>
+		{Object.entries(statusColors).slice(0, 5).map(([status, color]) => (
+			<span class="legend-item" title={statusDescriptions[status]}>
+				<span class="legend-dot" style={`background: ${color}`}></span>
+				{status}
+			</span>
+		))}
+	</section>
+
+	<section class="projects-grid">
+		{projects.map((project) => (
+			<article class="project-card">
+				<div class="project-image" style={`background: ${project.gradient}`}>
+					<span class="project-emoji">{project.emoji}</span>
+					{project.status && (
+						<span class="project-status" style={`background: ${statusColors[project.status]}`}>
+							{project.status}
+						</span>
+					)}
+				</div>
+				<div class="project-content">
+					<div class="project-header">
+						<h2>{project.title}</h2>
+						{project.github && (
+							<a href={project.github} target="_blank" rel="noopener noreferrer" class="github-link" title="View on GitHub">
+								<svg viewBox="0 0 24 24" fill="currentColor">
+									<path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+								</svg>
+							</a>
+						)}
+					</div>
+					<p>{project.description}</p>
+					<div class="tags">
+						{project.tags.map((tag) => (
+							<span class="tag">{tag}</span>
+						))}
+					</div>
+				</div>
+			</article>
+		))}
+	</section>
+
+	<section class="ideas-section">
+		<h2>💡 Future Ideas</h2>
+		<p>Things I want to explore when I find the time:</p>
+		<ul class="ideas-list">
+			<li>National river access point database with parking, amenities, and user reviews</li>
+			<li>Strava-style activity tracking for paddlers with river segment leaderboards</li>
+			<li>AI-powered fishing spot recommendations based on conditions and species</li>
+			<li>Satellite-derived river discharge visualization using SWOT data</li>
+		</ul>
 	</section>
 </Layout>
 
 <style>
-	.redirect-page {
-		text-align: center;
-		padding: 4rem 0;
+	.page-header {
+		padding: 2rem 0 2rem;
 	}
 
-	.redirect-page h1 {
-		font-size: 2rem;
-		margin-bottom: 1rem;
+	.page-header h1 {
+		font-size: 3rem;
+		font-weight: 700;
+		margin-bottom: 0.5rem;
 	}
 
-	.redirect-page > p {
+	.page-header p {
 		color: var(--text-muted);
-		margin-bottom: 2rem;
+		font-size: 1.1rem;
 	}
 
-	.redirect-links {
+	.status-legend {
 		display: flex;
-		gap: 1.5rem;
-		justify-content: center;
+		align-items: center;
+		gap: 1.25rem;
+		padding: 1rem 0 2rem;
 		flex-wrap: wrap;
 	}
 
-	.redirect-link {
+	.legend-label {
+		font-size: 0.85rem;
+		color: var(--text-muted);
+		font-weight: 500;
+	}
+
+	.legend-item {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-size: 0.8rem;
+		color: var(--text-muted);
+	}
+
+	.legend-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+	}
+
+	.projects-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		gap: 1.75rem;
+		padding-bottom: 3rem;
+	}
+
+	.project-card {
 		background: var(--bg-secondary);
 		border: 1px solid var(--border);
 		border-radius: 16px;
-		padding: 2rem;
-		min-width: 200px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.5rem;
-		transition: border-color 0.2s, transform 0.2s;
+		overflow: hidden;
+		transition: all 0.3s ease;
 	}
 
-	.redirect-link:hover {
+	.project-card:hover {
 		border-color: var(--accent);
 		transform: translateY(-4px);
 	}
 
-	.redirect-link .emoji {
-		font-size: 2.5rem;
+	.project-image {
+		height: 160px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
 	}
 
-	.redirect-link .label {
-		font-size: 1.25rem;
+	.project-emoji {
+		font-size: 4rem;
+	}
+
+	.project-status {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		padding: 0.3rem 0.85rem;
+		border-radius: 9999px;
+		font-size: 0.7rem;
 		font-weight: 600;
-		color: var(--text);
+		color: white;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 
-	.redirect-link .desc {
-		font-size: 0.85rem;
+	.project-content {
+		padding: 1.5rem;
+	}
+
+	.project-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 0.75rem;
+	}
+
+	.project-header h2 {
+		font-size: 1.2rem;
+		margin: 0;
+	}
+
+	.github-link {
 		color: var(--text-muted);
+		transition: color 0.2s;
+	}
+
+	.github-link:hover {
+		color: var(--accent);
+	}
+
+	.github-link svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	.project-content p {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		line-height: 1.65;
+		margin-bottom: 1rem;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.tag {
+		background: var(--bg);
+		border: 1px solid var(--border);
+		padding: 0.25rem 0.75rem;
+		border-radius: 9999px;
+		font-size: 0.72rem;
+		color: var(--text-muted);
+	}
+
+	.ideas-section {
+		padding: 3rem 0;
+		border-top: 1px solid var(--border);
+	}
+
+	.ideas-section h2 {
+		font-size: 1.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.ideas-section > p {
+		color: var(--text-muted);
+		margin-bottom: 1.5rem;
+	}
+
+	.ideas-list {
+		list-style: none;
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.ideas-list li {
+		padding: 1rem 1.25rem;
+		background: var(--bg-secondary);
+		border: 1px solid var(--border);
+		border-radius: 10px;
+		color: var(--text-muted);
+		font-size: 0.95rem;
+		transition: border-color 0.2s;
+	}
+
+	.ideas-list li:hover {
+		border-color: var(--accent);
+	}
+
+	.ideas-list li::before {
+		content: "→ ";
+		color: var(--accent);
+	}
+
+	@media (max-width: 640px) {
+		.page-header h1 {
+			font-size: 2rem;
+		}
+
+		.projects-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.status-legend {
+			gap: 0.75rem;
+		}
 	}
 </style>
