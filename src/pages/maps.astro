@@ -6,8 +6,7 @@ const maps = [
 		title: "HRRR Weather Visualization",
 		description: "Real-time HRRR weather data visualization with animated wind particles, temperature overlays, precipitation, and cloud cover. Features forecast animation and multiple weather variables.",
 		tags: ["Mapbox GL JS", "HRRR", "NOAA", "WebGL", "React"],
-		emoji: "🌦️",
-		gradient: "linear-gradient(135deg, #4c1d95 0%, #1e1b4b 100%)",
+		image: "/images/projects/hrrr-weather.png",
 		link: "https://hrrr-weather-viz.vercel.app/",
 		status: "Live"
 	},
@@ -15,8 +14,7 @@ const maps = [
 		title: "USGS Stream Monitor",
 		description: "Real-time dashboard displaying USGS stream gauge data with flow status, water temperature, trend analysis, and flood alerts. View conditions across thousands of gauges nationwide.",
 		tags: ["USGS", "Real-time Data", "Mapbox GL JS", "React"],
-		emoji: "📊",
-		gradient: "linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%)",
+		image: "/images/projects/stream-monitor.png",
 		link: "https://stream-monitor-eta.vercel.app/",
 		status: "Live"
 	},
@@ -24,8 +22,7 @@ const maps = [
 		title: "Float Estimator",
 		description: "Interactive river routing tool for planning float trips. Calculate float times, view elevation profiles, and get real-time conditions using NHDPlus data and the National Water Model.",
 		tags: ["NHDPlus", "PostGIS", "Mapbox GL JS", "National Water Model"],
-		emoji: "🛶",
-		gradient: "linear-gradient(135deg, #0369a1 0%, #0c4a6e 100%)",
+		image: "/images/projects/float-estimator.png",
 		link: "https://nhdplus-explorer.vercel.app/",
 		status: "Live"
 	}
@@ -47,8 +44,8 @@ const statusColors: Record<string, string> = {
 	<section class="maps-grid">
 		{maps.map((map) => (
 			<a href={map.link} target="_blank" rel="noopener noreferrer" class="map-card">
-				<div class="map-preview" style={`background: ${map.gradient}`}>
-					<span class="map-emoji">{map.emoji}</span>
+				<div class="map-preview">
+					<img src={map.image} alt={map.title} class="map-image" />
 					{map.status && (
 						<span class="map-status" style={`background: ${statusColors[map.status]}`}>
 							{map.status}
@@ -125,14 +122,19 @@ const statusColors: Record<string, string> = {
 
 	.map-preview {
 		height: 200px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		position: relative;
+		overflow: hidden;
 	}
 
-	.map-emoji {
-		font-size: 5rem;
+	.map-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+	}
+
+	.map-card:hover .map-image {
+		transform: scale(1.05);
 	}
 
 	.map-status {
