@@ -2,21 +2,21 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Liam | GIS & Mapping">
+<Layout title="Liam | GIS Developer">
 	<section class="hero">
 		<div class="hero-map" id="hero-map"></div>
 		<div class="hero-overlay"></div>
 		<div class="hero-content">
-			<p class="hero-label">GIS & Mapping Specialist</p>
-			<h1>I build maps that <span class="accent">move</span> people.</h1>
+			<p class="hero-label">GIS Developer · Recreational Applications</p>
+			<h1>I build maps that get people <span class="accent">outside</span>.</h1>
 			<p class="intro">
 				Head of GIS at <a href="https://onwater.com" target="_blank">onWater</a>. 
-				I turn massive geospatial datasets into beautiful, interactive experiences 
-				for millions of anglers and paddlers.
+				I turn massive hydrological datasets into interactive maps 
+				for millions of anglers, paddlers, and outdoor enthusiasts.
 			</p>
 			<div class="cta-buttons">
-				<a href="/projects" class="btn btn-primary">View Projects</a>
-				<a href="/sandbox" class="btn btn-secondary">🗺️ Map Sandbox</a>
+				<a href="/work" class="btn btn-primary">View Work</a>
+				<a href="/research" class="btn btn-secondary">🔬 Research</a>
 			</div>
 		</div>
 	</section>
@@ -94,7 +94,7 @@ import Layout from '../layouts/Layout.astro';
 		<h2>Featured Work</h2>
 		<p class="section-intro">Recent projects I'm proud of.</p>
 		<div class="featured-grid">
-			<a href="/projects" class="featured-card featured-large">
+			<a href="/work" class="featured-card featured-large">
 				<div class="featured-image" id="featured-map-1"></div>
 				<div class="featured-overlay"></div>
 				<div class="featured-content">
@@ -103,7 +103,7 @@ import Layout from '../layouts/Layout.astro';
 					<p>Interactive fishing maps serving millions of anglers with real-time conditions, spots, and navigation.</p>
 				</div>
 			</a>
-			<a href="/projects" class="featured-card">
+			<a href="/work" class="featured-card">
 				<div class="featured-image" style="background: linear-gradient(135deg, #134e4a 0%, #0f172a 100%);"></div>
 				<div class="featured-overlay"></div>
 				<div class="featured-content">
@@ -112,18 +112,19 @@ import Layout from '../layouts/Layout.astro';
 					<p>Route planning for kayakers with water levels and access points.</p>
 				</div>
 			</a>
-			<a href="/projects" class="featured-card">
-				<div class="featured-image" style="background: linear-gradient(135deg, #4c1d95 0%, #0f172a 100%);"></div>
+			<a href="/river-router" class="featured-card">
+				<div class="featured-image" style="background: linear-gradient(135deg, #0369a1 0%, #0f172a 100%);"></div>
 				<div class="featured-overlay"></div>
 				<div class="featured-content">
-					<span class="featured-tag">Real-time Data</span>
-					<h3>HRRR Weather Viz</h3>
-					<p>Animated weather layers from NOAA's rapid refresh system.</p>
+					<span class="featured-tag">Side Project</span>
+					<h3>River Router</h3>
+					<p>Client-side river routing with float times and elevation profiles.</p>
 				</div>
 			</a>
 		</div>
 		<div class="featured-cta">
-			<a href="/projects" class="btn btn-outline">View All Projects →</a>
+			<a href="/work" class="btn btn-outline">View All Work →</a>
+			<a href="/research" class="btn btn-outline">Research & Ideas →</a>
 		</div>
 	</section>
 
@@ -190,7 +191,7 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.hero h1 .accent {
-		background: linear-gradient(135deg, var(--accent) 0%, #60a5fa 100%);
+		background: linear-gradient(135deg, var(--accent) 0%, #48cae4 100%);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
@@ -436,6 +437,10 @@ import Layout from '../layouts/Layout.astro';
 	.featured-cta {
 		text-align: center;
 		margin-top: 3rem;
+		display: flex;
+		justify-content: center;
+		gap: 1rem;
+		flex-wrap: wrap;
 	}
 
 	/* CTA Section */
