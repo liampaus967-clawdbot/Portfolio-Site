@@ -121,10 +121,15 @@ const projects = [
 		width: 100%;
 		overflow: hidden;
 		background: #0a0a0a;
+		aspect-ratio: 16 / 10;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.gallery-item.featured .gallery-image {
 		max-height: 500px;
+		aspect-ratio: auto;
 	}
 
 	.gallery-image img {
@@ -235,8 +240,13 @@ const projects = [
 			grid-column: span 1;
 		}
 
+		.gallery-image {
+			aspect-ratio: 16 / 9;
+		}
+
 		.gallery-item.featured .gallery-image {
 			max-height: 300px;
+			aspect-ratio: auto;
 		}
 	}
 </style>
