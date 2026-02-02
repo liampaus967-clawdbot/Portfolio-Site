@@ -560,14 +560,12 @@ import Layout from '../layouts/Layout.astro';
 			});
 		}
 
-		// Animate stats on scroll
+		// Animate stats on page load
 		const statNumbers = document.querySelectorAll('.stat-number');
 		
 		function animateNumber(el, target) {
-			if (el.dataset.animated) return;
-			el.dataset.animated = 'true';
 			let current = 0;
-			const increment = Math.max(target / 50, 0.5);
+			const increment = Math.max(target / 40, 1);
 			const timer = setInterval(() => {
 				current += increment;
 				if (current >= target) {
@@ -576,19 +574,15 @@ import Layout from '../layouts/Layout.astro';
 				} else {
 					el.textContent = Math.floor(current);
 				}
-			}, 30);
+			}, 40);
 		}
 
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach(entry => {
-				if (entry.isIntersecting) {
-					const target = parseInt(entry.target.dataset.target);
-					animateNumber(entry.target, target);
-					observer.unobserve(entry.target);
-				}
+		// Trigger after short delay to ensure page is ready
+		setTimeout(() => {
+			statNumbers.forEach(el => {
+				const target = parseInt(el.dataset.target);
+				animateNumber(el, target);
 			});
-		}, { threshold: 0.1, rootMargin: '50px' });
-
-		statNumbers.forEach(num => observer.observe(num));
+		}, 500);
 	});
 </script>
