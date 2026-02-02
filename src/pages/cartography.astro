@@ -21,7 +21,8 @@ const projects = [
 		description: "Custom cartographic map for Montana fly shop showing fishing access sites, river sections, public lands, and key landmarks for anglers.",
 		image: "/images/cartography/flyshop-map.png",
 		tags: ["Print Map", "Fishing Access", "Montana", "Retail"],
-		client: "Fly Shop"
+		client: "Fly Shop",
+		portrait: true
 	},
 	{
 		title: "National Hydrological Visualization",
@@ -48,7 +49,7 @@ const projects = [
 
 	<section class="gallery">
 		{projects.map((project, index) => (
-			<article class={`gallery-item ${index === 0 ? 'featured' : ''}`}>
+			<article class={`gallery-item ${index === 0 ? 'featured' : ''} ${project.portrait ? 'portrait' : ''}`}>
 				<div class="gallery-image">
 					<img src={project.image} alt={project.title} loading="lazy" />
 				</div>
@@ -130,6 +131,10 @@ const projects = [
 	.gallery-item.featured .gallery-image {
 		max-height: 500px;
 		aspect-ratio: auto;
+	}
+
+	.gallery-item.portrait .gallery-image {
+		aspect-ratio: 3 / 4;
 	}
 
 	.gallery-image img {
@@ -247,6 +252,10 @@ const projects = [
 		.gallery-item.featured .gallery-image {
 			max-height: 300px;
 			aspect-ratio: auto;
+		}
+
+		.gallery-item.portrait .gallery-image {
+			aspect-ratio: 2 / 3;
 		}
 	}
 </style>
