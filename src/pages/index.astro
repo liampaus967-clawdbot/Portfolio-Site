@@ -173,34 +173,50 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.rivers-toggle {
-		position: absolute;
-		top: 80px;
+		position: fixed;
+		top: 18px;
 		left: 20px;
-		z-index: 10;
-		background: rgba(0, 0, 0, 0.5);
-		border: 1px solid rgba(255, 255, 255, 0.2);
-		border-radius: 8px;
-		padding: 10px;
+		z-index: 1000;
+		background: transparent;
+		border: none;
+		padding: 8px;
 		cursor: pointer;
-		color: rgba(255, 255, 255, 0.6);
+		color: rgba(255, 255, 255, 0.4);
 		transition: all 0.3s ease;
-		backdrop-filter: blur(4px);
 	}
 
 	.rivers-toggle:hover {
-		background: rgba(0, 180, 216, 0.2);
-		border-color: var(--accent);
 		color: var(--accent);
+		transform: scale(1.1);
 	}
 
 	.rivers-toggle.active {
-		background: rgba(0, 180, 216, 0.3);
-		border-color: var(--accent);
 		color: var(--accent);
 	}
 
 	.rivers-toggle svg {
 		display: block;
+	}
+
+	/* Bubble effect */
+	.bubble {
+		position: fixed;
+		border-radius: 50%;
+		background: radial-gradient(circle at 30% 30%, rgba(0, 180, 216, 0.8), rgba(0, 180, 216, 0.2));
+		pointer-events: none;
+		z-index: 999;
+		animation: bubble-rise 4s ease-out forwards;
+	}
+
+	@keyframes bubble-rise {
+		0% {
+			transform: translateY(0) scale(1);
+			opacity: 0.7;
+		}
+		100% {
+			transform: translateY(-100vh) scale(0.5);
+			opacity: 0;
+		}
 	}
 
 	.hero-content {
@@ -578,10 +594,29 @@ import Layout from '../layouts/Layout.astro';
 				// Rivers toggle button
 				let riversVisible = false;
 				const toggleBtn = document.getElementById('rivers-toggle');
+				
+				function spawnBubbles() {
+					for (let i = 0; i < 15; i++) {
+						setTimeout(() => {
+							const bubble = document.createElement('div');
+							bubble.className = 'bubble';
+							const size = Math.random() * 20 + 10;
+							bubble.style.width = size + 'px';
+							bubble.style.height = size + 'px';
+							bubble.style.left = Math.random() * window.innerWidth + 'px';
+							bubble.style.bottom = '-50px';
+							bubble.style.animationDuration = (Math.random() * 2 + 3) + 's';
+							document.body.appendChild(bubble);
+							setTimeout(() => bubble.remove(), 5000);
+						}, i * 100);
+					}
+				}
+				
 				toggleBtn.addEventListener('click', () => {
 					riversVisible = !riversVisible;
 					heroMap.setPaintProperty('vtRivers-layer', 'line-opacity', riversVisible ? 0.9 : 0);
 					toggleBtn.classList.toggle('active', riversVisible);
+					if (riversVisible) spawnBubbles();
 				});
 
 				// Slow pan animation
