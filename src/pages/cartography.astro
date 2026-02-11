@@ -3,6 +3,14 @@ import Layout from '../layouts/Layout.astro';
 
 const projects = [
 	{
+		title: "onWater Topo Basemap",
+		description: "Custom Mapbox GL basemap designed for outdoor recreation apps. Features terrain hillshading, public lands, contour lines in feet, glacier coverage, and optimized label hierarchy.",
+		image: "/images/cartography/basemap-tester.png",
+		tags: ["Mapbox GL", "Basemap Design", "Terrain", "Interactive"],
+		client: "onWater",
+		link: "https://basemap-tester.vercel.app/"
+	},
+	{
 		title: "Mayfly Flywheel Engraving",
 		description: "Led cartographic design for Abel Reels' custom fly fishing reel engraving. Topographic contours and hydrological network etched into machined aluminum.",
 		image: "/images/cartography/flywheel-engraving.png",
@@ -49,23 +57,46 @@ const projects = [
 
 	<section class="gallery">
 		{projects.map((project, index) => (
-			<article class={`gallery-item ${index === 0 ? 'featured' : ''} ${project.portrait ? 'portrait' : ''}`}>
-				<div class="gallery-image">
-					<img src={project.image} alt={project.title} loading="lazy" />
-				</div>
-				<div class="gallery-content">
-					<div class="gallery-meta">
-						<span class="client">{project.client}</span>
+			project.link ? (
+				<a href={project.link} target="_blank" rel="noopener noreferrer" class={`gallery-item gallery-link ${index === 0 ? 'featured' : ''} ${project.portrait ? 'portrait' : ''}`}>
+					<div class="gallery-image">
+						<img src={project.image} alt={project.title} loading="lazy" />
+						<div class="link-overlay">
+							<span>View Live Demo →</span>
+						</div>
 					</div>
-					<h2>{project.title}</h2>
-					<p>{project.description}</p>
-					<div class="tags">
-						{project.tags.map((tag) => (
-							<span class="tag">{tag}</span>
-						))}
+					<div class="gallery-content">
+						<div class="gallery-meta">
+							<span class="client">{project.client}</span>
+						</div>
+						<h2>{project.title}</h2>
+						<p>{project.description}</p>
+						<div class="tags">
+							{project.tags.map((tag) => (
+								<span class="tag">{tag}</span>
+							))}
+						</div>
 					</div>
-				</div>
-			</article>
+				</a>
+			) : (
+				<article class={`gallery-item ${index === 0 ? 'featured' : ''} ${project.portrait ? 'portrait' : ''}`}>
+					<div class="gallery-image">
+						<img src={project.image} alt={project.title} loading="lazy" />
+					</div>
+					<div class="gallery-content">
+						<div class="gallery-meta">
+							<span class="client">{project.client}</span>
+						</div>
+						<h2>{project.title}</h2>
+						<p>{project.description}</p>
+						<div class="tags">
+							{project.tags.map((tag) => (
+								<span class="tag">{tag}</span>
+							))}
+						</div>
+					</div>
+				</article>
+			)
 		))}
 	</section>
 
@@ -112,6 +143,37 @@ const projects = [
 		border-color: var(--accent);
 		transform: translateY(-4px);
 		box-shadow: 0 20px 40px -15px rgba(0, 180, 216, 0.15);
+	}
+
+	.gallery-link {
+		text-decoration: none;
+		color: inherit;
+		cursor: pointer;
+	}
+
+	.link-overlay {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 180, 216, 0.85);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.link-overlay span {
+		color: white;
+		font-weight: 600;
+		font-size: 1.1rem;
+	}
+
+	.gallery-link:hover .link-overlay {
+		opacity: 1;
+	}
+
+	.gallery-image {
+		position: relative;
 	}
 
 	.gallery-item.featured {
